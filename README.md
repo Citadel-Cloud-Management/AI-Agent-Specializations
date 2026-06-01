@@ -1,6 +1,6 @@
-# 🤖 AI Agent Specializations — Multi-Cloud Enterprise Framework (https://kogunlowo123.github.io/AI-Agent-Specializations/)
+# 🤖 AI Agent Specializations — Multi-Cloud Enterprise Framework (https://citadel-cloud-management.github.io/AI-Agent-Specializations/)
 
-> **Architect:** [Kehinde (Kenny) Samson Ogunlowo](https://github.com/kogunlowo123) | Principal AI Infrastructure & Security Architect  
+> **Architect:** [Kehinde (Kenny) Samson Ogunlowo](https://github.com/Citadel-Cloud-Management) | Principal AI Infrastructure & Security Architect  
 > **Clearance:** Active Secret Clearance | **Location:** Houston, TX | **Company:** [Citadel Cloud Management](https://citadelcloudmanagement.com)
 
 [![AWS](https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazon-aws&logoColor=FF9900)](https://aws.amazon.com)
