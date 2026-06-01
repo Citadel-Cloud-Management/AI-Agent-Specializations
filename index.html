@@ -4,1388 +4,161 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>AI Agent Specializations | Citadel Cloud Management</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --navy: #0A1628;
-    --blue: #1B4F9B;
-    --accent: #00C2FF;
-    --gold: #F5A623;
-    --white: #F8FAFF;
-    --muted: #8A9BBF;
-    --card: #111D35;
-    --border: rgba(0,194,255,0.18);
-    --glow: 0 0 32px rgba(0,194,255,0.15);
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--navy);
-    color: var(--white);
-    font-family: 'IBM Plex Mono', monospace;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* ─── GRID BACKGROUND ─── */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image:
-      linear-gradient(rgba(0,194,255,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,194,255,0.04) 1px, transparent 1px);
-    background-size: 48px 48px;
-    pointer-events: none; z-index: 0;
-  }
-
-  /* ─── HERO ─── */
-  .hero {
-    position: relative; z-index: 1;
-    padding: 80px 40px 60px;
-    max-width: 1100px; margin: 0 auto;
-    border-bottom: 1px solid var(--border);
-  }
-  .hero-badge {
-    display: inline-block;
-    background: rgba(0,194,255,0.1);
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-    padding: 6px 16px; border-radius: 2px;
-    margin-bottom: 32px;
-    font-family: 'IBM Plex Mono', monospace;
-  }
-  .hero h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(32px, 5vw, 58px);
-    font-weight: 800;
-    line-height: 1.08;
-    color: var(--white);
-    margin-bottom: 16px;
-  }
-  .hero h1 span { color: var(--accent); }
-  .hero-sub {
-    font-family: 'Instrument Serif', serif;
-    font-style: italic;
-    font-size: 22px;
-    color: var(--muted);
-    margin-bottom: 32px;
-    line-height: 1.5;
-  }
-  .hero-meta {
-    display: flex; align-items: center; gap: 24px;
-    flex-wrap: wrap;
-  }
-  .avatar {
-    width: 52px; height: 52px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--blue), var(--accent));
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Syne', sans-serif; font-weight: 800;
-    font-size: 18px; color: var(--white); flex-shrink: 0;
-  }
-  .meta-text { font-size: 13px; color: var(--muted); }
-  .meta-text strong { color: var(--white); display: block; font-size: 15px; }
-  .clearance-badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: rgba(245,166,35,0.1); border: 1px solid var(--gold);
-    color: var(--gold); padding: 5px 14px; border-radius: 2px;
-    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-  }
-  .clearance-badge::before { content: '●'; font-size: 8px; }
-
-  /* ─── MAIN LAYOUT ─── */
-  .container {
-    max-width: 1100px; margin: 0 auto;
-    padding: 60px 40px;
-    position: relative; z-index: 1;
-  }
-
-  /* ─── INTRO ─── */
-  .intro-block {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent);
-    padding: 28px 32px;
-    margin-bottom: 72px;
-    font-size: 15px; line-height: 1.8;
-    color: #BDC8E0;
-    box-shadow: var(--glow);
-  }
-
-  /* ─── SECTION HEADERS ─── */
-  .section-label {
-    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
-    color: var(--accent); margin-bottom: 48px;
-    display: flex; align-items: center; gap: 16px;
-  }
-  .section-label::after {
-    content: ''; flex: 1; height: 1px;
-    background: linear-gradient(90deg, var(--border), transparent);
-  }
-
-  /* ─── AGENT CARDS ─── */
-  .agents-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
-    gap: 2px;
-    margin-bottom: 80px;
-    border: 1px solid var(--border);
-  }
-  .agent-card {
-    background: var(--card);
-    padding: 32px;
-    border: 1px solid transparent;
-    transition: border-color 0.2s, background 0.2s;
-    position: relative; overflow: hidden;
-  }
-  .agent-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    background: transparent;
-    transition: background 0.2s;
-  }
-  .agent-card:hover { background: #162040; border-color: var(--border); }
-  .agent-card:hover::before { background: linear-gradient(90deg, var(--accent), var(--blue)); }
-
-  .card-number {
-    font-family: 'Syne', sans-serif;
-    font-size: 48px; font-weight: 800;
-    color: rgba(0,194,255,0.08);
-    position: absolute; top: 16px; right: 24px;
-    line-height: 1;
-  }
-  .card-icon { font-size: 28px; margin-bottom: 12px; display: block; }
-  .card-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 16px; font-weight: 700;
-    color: var(--white);
-    margin-bottom: 10px;
-  }
-  .card-desc {
-    font-size: 12px; color: var(--muted); margin-bottom: 18px;
-    line-height: 1.7; font-style: italic;
-  }
-  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
-  .tag {
-    font-size: 10px; letter-spacing: 0.5px;
-    background: rgba(27,79,155,0.3);
-    border: 1px solid rgba(27,79,155,0.5);
-    color: #7EB3FF;
-    padding: 4px 10px; border-radius: 2px;
-    text-decoration: none;
-    transition: background 0.15s, color 0.15s;
-  }
-  .tag:hover {
-    background: rgba(0,194,255,0.15);
-    color: var(--accent);
-    border-color: var(--accent);
-  }
-
-  /* ─── ARCHITECTURE DIAGRAM ─── */
-  .arch-section { margin-bottom: 80px; }
-  .arch-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 28px; font-weight: 800;
-    color: var(--white); margin-bottom: 8px;
-  }
-  .arch-sub {
-    font-size: 13px; color: var(--muted); margin-bottom: 40px;
-  }
-  .arch-wrapper {
-    background: #080F1E;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 40px 20px;
-    overflow-x: auto;
-    box-shadow: var(--glow);
-  }
-  .arch-diagram { width: 100%; min-width: 900px; height: auto; }
-
-  /* SVG styles */
-  .sf-node { cursor: pointer; }
-  .sf-node rect, .sf-node polygon {
-    transition: filter 0.2s;
-  }
-  .sf-node:hover rect, .sf-node:hover polygon {
-    filter: brightness(1.3) drop-shadow(0 0 8px rgba(0,194,255,0.6));
-  }
-
-  /* ─── LEGEND ─── */
-  .legend {
-    display: flex; flex-wrap: wrap; gap: 20px;
-    margin-top: 24px; padding-top: 24px;
-    border-top: 1px solid var(--border);
-  }
-  .legend-item {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 11px; color: var(--muted);
-  }
-  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-  .legend-line {
-    width: 24px; height: 2px; flex-shrink: 0;
-    position: relative;
-  }
-
-  /* ─── CLOUD REFERENCES ─── */
-  .refs-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    margin-bottom: 80px;
-  }
-  .ref-group {
-    background: var(--card);
-    padding: 28px;
-  }
-  .ref-cloud {
-    font-family: 'Syne', sans-serif;
-    font-size: 13px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 2px;
-    margin-bottom: 16px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .ref-cloud span { font-size: 16px; }
-  .ref-link {
-    display: block;
-    font-size: 11px;
-    color: #7EB3FF;
-    text-decoration: none;
-    padding: 5px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    transition: color 0.15s;
-    line-height: 1.5;
-  }
-  .ref-link:hover { color: var(--accent); }
-  .ref-link::before { content: '↗ '; opacity: 0.5; }
-
-  /* ─── FOOTER ─── */
-  .article-footer {
-    border-top: 1px solid var(--border);
-    padding: 48px 40px;
-    max-width: 1100px; margin: 0 auto;
-    display: flex; justify-content: space-between; align-items: flex-end;
-    flex-wrap: wrap; gap: 24px;
-    position: relative; z-index: 1;
-  }
-  .cta-block { max-width: 560px; }
-  .cta-block h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 22px; font-weight: 800; margin-bottom: 10px;
-  }
-  .cta-block p { font-size: 13px; color: var(--muted); line-height: 1.7; }
-  .cta-link {
-    display: inline-block; margin-top: 20px;
-    background: var(--accent);
-    color: var(--navy);
-    font-family: 'Syne', sans-serif; font-weight: 700;
-    font-size: 13px; letter-spacing: 1px; text-transform: uppercase;
-    padding: 12px 28px; text-decoration: none;
-    border-radius: 2px;
-    transition: transform 0.15s, box-shadow 0.15s;
-  }
-  .cta-link:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,194,255,0.3);
-  }
-  .expertise-list { font-size: 11px; color: var(--muted); line-height: 2; text-align: right; }
-  .expertise-list strong { color: var(--white); display: block; margin-bottom: 8px; font-size: 12px; letter-spacing: 1px; }
-
-  /* ─── CITADEL BLOCK ─── */
-  .citadel-block {
-    background: linear-gradient(135deg, #0D1B2E 0%, #0A1628 100%);
-    border: 1px solid var(--gold);
-    border-radius: 4px;
-    padding: 40px;
-    margin-bottom: 72px;
-    box-shadow: 0 0 40px rgba(245,166,35,0.08);
-  }
-  .citadel-logo-row {
-    display: flex; align-items: center; gap: 20px;
-    margin-bottom: 24px; flex-wrap: wrap;
-  }
-  .citadel-icon { font-size: 42px; flex-shrink: 0; }
-  .citadel-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 24px; font-weight: 800;
-    color: var(--gold); line-height: 1.2;
-  }
-  .citadel-tagline { font-size: 12px; color: var(--muted); margin-top: 4px; letter-spacing: 1px; }
-  .citadel-btn {
-    margin-left: auto;
-    background: var(--gold); color: var(--navy);
-    font-family: 'Syne', sans-serif; font-weight: 700;
-    font-size: 12px; letter-spacing: 1px; text-transform: uppercase;
-    padding: 10px 22px; text-decoration: none; border-radius: 2px;
-    transition: transform 0.15s, box-shadow 0.15s; white-space: nowrap;
-  }
-  .citadel-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,166,35,0.3); }
-  .citadel-desc {
-    font-size: 14px; color: #BDC8E0; line-height: 1.8;
-    margin-bottom: 32px; border-left: 3px solid var(--gold); padding-left: 20px;
-  }
-  .citadel-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;
-  }
-  .citadel-card {
-    background: rgba(0,0,0,0.3); border: 1px solid rgba(245,166,35,0.2);
-    border-radius: 3px; padding: 22px; transition: border-color 0.2s, background 0.2s;
-  }
-  .citadel-card:hover { border-color: var(--gold); background: rgba(245,166,35,0.04); }
-  .citadel-card-icon { font-size: 24px; margin-bottom: 10px; }
-  .citadel-card-title {
-    font-family: 'Syne', sans-serif; font-weight: 700;
-    font-size: 14px; color: var(--white); margin-bottom: 8px;
-  }
-  .citadel-card-desc { font-size: 12px; color: var(--muted); line-height: 1.7; margin-bottom: 14px; }
-  .citadel-card-link {
-    font-size: 11px; color: var(--gold); text-decoration: none;
-    letter-spacing: 0.5px; transition: color 0.15s;
-  }
-  .citadel-card-link:hover { color: #FFD54F; }
-
-  /* --- IMPLEMENTATION AGENTS --- */
-  .impl-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
-    gap: 2px;
-    margin-bottom: 80px;
-    border: 1px solid var(--border);
-  }
-  .impl-card {
-    background: var(--card);
-    padding: 32px;
-    border: 1px solid transparent;
-    transition: border-color 0.2s, background 0.2s;
-    position: relative; overflow: hidden;
-  }
-  .impl-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    background: transparent;
-    transition: background 0.2s;
-  }
-  .impl-card:hover { background: #162040; border-color: var(--border); }
-  .impl-card:hover::before { background: linear-gradient(90deg, var(--gold), var(--accent)); }
-  .impl-number {
-    font-family: 'Syne', sans-serif;
-    font-size: 48px; font-weight: 800;
-    color: rgba(245,166,35,0.1);
-    position: absolute; top: 16px; right: 24px;
-    line-height: 1;
-  }
-  .impl-icon { font-size: 28px; margin-bottom: 12px; display: block; }
-  .impl-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 16px; font-weight: 700;
-    color: var(--gold);
-    margin-bottom: 6px;
-  }
-  .impl-subtitle {
-    font-size: 13px; color: var(--muted); margin-bottom: 16px;
-    line-height: 1.6; font-style: italic;
-  }
-  .impl-section-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 11px; font-weight: 700;
-    color: var(--accent);
-    text-transform: uppercase; letter-spacing: 1.5px;
-    margin-bottom: 8px; margin-top: 16px;
-  }
-  .impl-list {
-    list-style: none; padding: 0; margin: 0 0 12px 0;
-  }
-  .impl-list li {
-    font-size: 12px; color: #BDC8E0; padding: 3px 0;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .impl-list li::before {
-    content: '\203A'; color: var(--accent); font-weight: 700;
-  }
-  .impl-arch {
-    background: #080F1E;
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    padding: 14px 16px;
-    margin-top: 14px;
-    font-size: 11px;
-    line-height: 1.8;
-    color: var(--muted);
-    font-family: 'IBM Plex Mono', monospace;
-  }
-  .impl-arch-label {
-    font-size: 10px; font-weight: 600;
-    color: var(--accent);
-    text-transform: uppercase; letter-spacing: 1.5px;
-    margin-bottom: 6px;
-  }
-  .impl-arch .step { color: #BDC8E0; }
-  .impl-arch .arrow { color: var(--accent); margin: 0 2px; }
-
+:root{--navy:#0A1628;--blue:#1B4F9B;--accent:#00C2FF;--gold:#F5A623;--white:#F8FAFF;--muted:#8A9BBF;--card:#111D35;--border:rgba(0,194,255,0.18);--glow:0 0 32px rgba(0,194,255,0.15)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--navy);color:var(--white);font-family:'IBM Plex Mono',monospace;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,194,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,194,255,0.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+.hero{position:relative;z-index:1;padding:80px 40px 60px;max-width:1100px;margin:0 auto;border-bottom:1px solid var(--border)}
+.hero-badge{display:inline-block;background:rgba(0,194,255,0.1);border:1px solid var(--accent);color:var(--accent);font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:6px 16px;border-radius:2px;margin-bottom:32px}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(32px,5vw,58px);font-weight:800;line-height:1.08;margin-bottom:16px}
+.hero h1 span{color:var(--accent)}
+.hero-sub{font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;color:var(--muted);margin-bottom:32px;line-height:1.5}
+.hero-meta{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--accent));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:18px;flex-shrink:0}
+.meta-text{font-size:13px;color:var(--muted)}.meta-text strong{color:var(--white);display:block;font-size:15px}
+.clearance-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(245,166,35,0.1);border:1px solid var(--gold);color:var(--gold);padding:5px 14px;border-radius:2px;font-size:11px;letter-spacing:2px;text-transform:uppercase}.clearance-badge::before{content:'\25CF';font-size:8px}
+.container{max-width:1100px;margin:0 auto;padding:60px 40px;position:relative;z-index:1}
+.intro-block{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);padding:28px 32px;margin-bottom:72px;font-size:15px;line-height:1.8;color:#BDC8E0;box-shadow:var(--glow)}
+.section-label{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:48px;display:flex;align-items:center;gap:16px}.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+.dg{display:grid;grid-template-columns:repeat(auto-fill,minmax(480px,1fr));gap:2px;margin-bottom:80px;border:1px solid var(--border)}
+.dc{background:var(--card);padding:32px;border:1px solid transparent;transition:border-color .2s,background .2s;position:relative;overflow:hidden}.dc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:transparent;transition:background .2s}.dc:hover{background:#162040;border-color:var(--border)}.dc:hover::before{background:linear-gradient(90deg,var(--accent),var(--blue))}
+.dn{font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:rgba(0,194,255,0.08);position:absolute;top:16px;right:24px;line-height:1}
+.di{font-size:28px;margin-bottom:12px;display:block}
+.dt{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:6px}
+.dm{font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.7;font-style:italic}
+.dl{font-size:9px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;margin-top:14px}
+.du{list-style:none;padding:0;margin:0 0 8px}.du li{font-size:11px;color:#BDC8E0;padding:2px 0;display:flex;align-items:center;gap:6px}.du li::before{content:'\203A';color:var(--accent);font-weight:700}
+.tl{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tag{font-size:10px;letter-spacing:.5px;background:rgba(27,79,155,0.3);border:1px solid rgba(27,79,155,0.5);color:#7EB3FF;padding:4px 10px;border-radius:2px;text-decoration:none;transition:background .15s,color .15s}.tag:hover{background:rgba(0,194,255,0.15);color:var(--accent);border-color:var(--accent)}
+.arch-section{margin-bottom:80px}.arch-title{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;margin-bottom:8px}.arch-sub{font-size:13px;color:var(--muted);margin-bottom:40px}
+.al{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:40px}
+.ac{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:20px}.act{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}.acb{font-size:11px;color:var(--muted);line-height:1.8}
+.pipeline{display:flex;flex-wrap:wrap;gap:0;align-items:center;justify-content:center;margin:40px 0;padding:24px;background:#080F1E;border:1px solid var(--border);border-radius:4px}.ps{background:var(--card);border:1px solid var(--border);padding:10px 18px;border-radius:3px;font-size:11px;color:#BDC8E0;white-space:nowrap}.pa{color:var(--accent);font-size:16px;margin:0 4px}
+.ig{display:grid;grid-template-columns:repeat(auto-fill,minmax(480px,1fr));gap:2px;margin-bottom:80px;border:1px solid var(--border)}
+.ic{background:var(--card);padding:32px;border:1px solid transparent;transition:border-color .2s,background .2s;position:relative;overflow:hidden}.ic::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:transparent;transition:background .2s}.ic:hover{background:#162040;border-color:var(--border)}.ic:hover::before{background:linear-gradient(90deg,var(--gold),var(--accent))}
+.in{font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:rgba(245,166,35,0.1);position:absolute;top:16px;right:24px;line-height:1}
+.ii{font-size:28px;margin-bottom:12px;display:block}
+.it{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--gold);margin-bottom:6px}
+.ip{font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.7;font-style:italic}
+.il{font-size:9px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;margin-top:14px}
+.iu{list-style:none;padding:0;margin:0 0 8px}.iu li{font-size:11px;color:#BDC8E0;padding:2px 0;display:flex;align-items:center;gap:6px}.iu li::before{content:'\203A';color:var(--gold);font-weight:700}
+.ia{background:#080F1E;border:1px solid var(--border);border-radius:3px;padding:12px 14px;margin-top:14px;font-size:10px;line-height:1.9;color:var(--muted);font-family:'IBM Plex Mono',monospace}
+.iat{font-size:9px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px}.step{color:#BDC8E0}.arr{color:var(--accent);margin:0 2px}
+.cb{background:linear-gradient(135deg,#0D1B2E,#0A1628);border:1px solid var(--gold);border-radius:4px;padding:40px;margin-bottom:72px;box-shadow:0 0 40px rgba(245,166,35,0.08)}
+.cb-row{display:flex;align-items:center;gap:20px;margin-bottom:24px;flex-wrap:wrap}.cb-icon{font-size:42px;flex-shrink:0}.cb-title{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--gold);line-height:1.2}.cb-tag{font-size:12px;color:var(--muted);margin-top:4px;letter-spacing:1px}
+.cb-btn{margin-left:auto;background:var(--gold);color:var(--navy);font-family:'Syne',sans-serif;font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;padding:10px 22px;text-decoration:none;border-radius:2px;transition:transform .15s,box-shadow .15s;white-space:nowrap}.cb-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(245,166,35,0.3)}
+.cb-desc{font-size:14px;color:#BDC8E0;line-height:1.8;margin-bottom:32px;border-left:3px solid var(--gold);padding-left:20px}
+.cb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.cc{background:rgba(0,0,0,0.3);border:1px solid rgba(245,166,35,0.2);border-radius:3px;padding:22px;transition:border-color .2s,background .2s}.cc:hover{border-color:var(--gold);background:rgba(245,166,35,0.04)}
+.cc-i{font-size:24px;margin-bottom:10px}.cc-t{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:8px}.cc-d{font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:14px}.cc-l{font-size:11px;color:var(--gold);text-decoration:none;letter-spacing:.5px;transition:color .15s}.cc-l:hover{color:#FFD54F}
+.rg3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:24px}
+.rg4{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:80px}
+.rg{background:var(--card);padding:28px}.rc{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px;display:flex;align-items:center;gap:8px}.rc span{font-size:16px}
+.rl{display:block;font-size:11px;color:#7EB3FF;text-decoration:none;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);transition:color .15s;line-height:1.5}.rl:hover{color:var(--accent)}.rl::before{content:'\2197 ';opacity:.5}
+.footer{border-top:1px solid var(--border);padding:48px 40px;max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;position:relative;z-index:1}
+.cta{max-width:560px}.cta h3{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:10px}.cta p{font-size:13px;color:var(--muted);line-height:1.7}
+.cta-link{display:inline-block;margin-top:20px;background:var(--accent);color:var(--navy);font-family:'Syne',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;padding:12px 28px;text-decoration:none;border-radius:2px;transition:transform .15s,box-shadow .15s}.cta-link:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,194,255,0.3)}
+.exp{font-size:11px;color:var(--muted);line-height:2;text-align:right}.exp strong{color:var(--white);display:block;margin-bottom:8px;font-size:12px;letter-spacing:1px}
+@media(max-width:600px){.dg,.ig{grid-template-columns:1fr}.rg3,.rg4{grid-template-columns:1fr}.hero,.container{padding-left:20px;padding-right:20px}.al{grid-template-columns:1fr}.cb-grid{grid-template-columns:1fr}.footer{flex-direction:column;align-items:flex-start}.exp{text-align:left}}
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════ HERO ═══════════════════ -->
 <header class="hero">
-  <div class="hero-badge">LinkedIn Featured Article · AI Infrastructure</div>
-  <h1>Hands-On <span>AI Agent</span><br>Specializations</h1>
-  <p class="hero-sub">How I Build and Deploy Intelligent Agents Across AWS, Azure, and GCP — Organized by Use Case Domain</p>
-  <div class="hero-meta">
-    <div class="avatar">KO</div>
-    <div class="meta-text">
-      <strong>Kehinde (Kenny) Ogunlowo</strong>
-      Senior Multi-Cloud Security Architect &amp; AI Platform Engineer
-    </div>
-    <div class="clearance-badge">Active U.S. Secret Clearance</div>
-  </div>
+<div class="hero-badge">Enterprise AI Architecture &#183; Multi-Cloud</div>
+<h1>Hands-On <span>AI Agent</span><br>Specializations</h1>
+<p class="hero-sub">How I Build and Deploy Intelligent Agents Across AWS, Azure, and GCP &#8212; Organized by Use Case Domain</p>
+<div class="hero-meta"><div class="avatar">KO</div><div class="meta-text"><strong>Kehinde (Kenny) Ogunlowo</strong>Senior Multi-Cloud Security Architect &amp; AI Platform Engineer</div><div class="clearance-badge">Active U.S. Secret Clearance</div></div>
 </header>
 
-<!-- ═══════════════════ ARTICLE BODY ═══════════════════ -->
 <main class="container">
-
-  <!-- Intro -->
-  <div class="intro-block">
-    As AI moves from experimentation into production, the ability to design, deploy, and govern intelligent agents at enterprise scale is becoming a defining capability for cloud architects and AI platform engineers. Below is a breakdown of the agent types and platforms I work across — organized by use case domain — spanning conversational assistants through fully autonomous infrastructure and cross-cloud orchestration patterns.
-  </div>
-
-  <!-- Agent Cards -->
-  <div class="section-label">Eight Specialization Domains</div>
-  <div class="agents-grid">
-
-    <!-- 1 -->
-    <div class="agent-card">
-      <span class="card-number">01</span>
-      <span class="card-icon">💬</span>
-      <div class="card-title">Conversational &amp; Copilot Assistants</div>
-      <div class="card-desc">Enterprise knowledge assistants and workflow copilots across all three major clouds</div>
-      <div class="tag-list">
-        <a class="tag" href="https://aws.amazon.com/q/business/" target="_blank">Amazon Q Business</a>
-        <a class="tag" href="https://aws.amazon.com/lex/" target="_blank">Amazon Lex</a>
-        <a class="tag" href="https://aws.amazon.com/connect/" target="_blank">Amazon Connect</a>
-        <a class="tag" href="https://copilot.microsoft.com/" target="_blank">Microsoft Copilot</a>
-        <a class="tag" href="https://azure.microsoft.com/en-us/products/ai-services/ai-bot-service" target="_blank">Azure AI Bot Service</a>
-        <a class="tag" href="https://cloud.google.com/gemini" target="_blank">Gemini for GCP</a>
-        <a class="tag" href="https://workspace.google.com/intl/en/features/gemini/" target="_blank">Google Workspace Gemini</a>
-        <a class="tag" href="https://cloud.google.com/dialogflow" target="_blank">Dialogflow</a>
-      </div>
-    </div>
-
-    <!-- 2 -->
-    <div class="agent-card">
-      <span class="card-number">02</span>
-      <span class="card-icon">🤖</span>
-      <div class="card-title">Autonomous Task Agents</div>
-      <div class="card-desc">Multi-step task execution agents with LLM-powered orchestration and event-driven triggers</div>
-      <div class="tag-list">
-        <a class="tag" href="https://aws.amazon.com/bedrock/agents/" target="_blank">Bedrock Agents</a>
-        <a class="tag" href="https://aws.amazon.com/step-functions/" target="_blank">Step Functions + LLM</a>
-        <a class="tag" href="https://aws.amazon.com/lambda/" target="_blank">Lambda Event Agents</a>
-        <a class="tag" href="https://azure.microsoft.com/en-us/products/ai-services/ai-agent-service" target="_blank">Azure AI Agent Service</a>
-        <a class="tag" href="https://azure.microsoft.com/en-us/products/logic-apps" target="_blank">Logic Apps Orchestrators</a>
-        <a class="tag" href="https://cloud.google.com/vertex-ai/docs/extensions/overview" target="_blank">Vertex AI Agent Builder</a>
-      </div>
-    </div>
-
-    <!-- 3 -->
-    <div class="agent-card">
-      <span class="card-number">03</span>
-      <span class="card-icon">⚙️</span>
-      <div class="card-title">Developer &amp; DevOps Agents</div>
-      <div class="card-desc">AI coding and pipeline automation with IaC auto-remediation across all major platforms</div>
-      <div class="tag-list">
-        <a class="tag" href="https://aws.amazon.com/q/developer/" target="_blank">Amazon Q Developer</a>
-        <a class="tag" href="https://aws.amazon.com/codewhisperer/" target="_blank">CodeWhisperer</a>
-        <a class="tag" href="https://github.com/features/copilot" target="_blank">GitHub Copilot</a>
-        <a class="tag" href="https://azure.microsoft.com/en-us/products/devops" target="_blank">Azure DevOps AI</a>
-        <a class="tag" href="https://cloud.google.com/gemini/docs/codeassist/overview" target="_blank">Gemini Code Assist</a>
-        <a class="tag" href="https://cloud.google.com/build" target="_blank">Cloud Build AI</a>
-        <a class="tag" href="https://www.terraform.io/" target="_blank">Terraform Auto-Remediation</a>
-      </div>
-    </div>
-
-    <!-- 4 -->
-    <div class="agent-card">
-      <span class="card-number">04</span>
-      <span class="card-icon">📊</span>
-      <div class="card-title">Data &amp; Analytics Agents</div>
-      <div class="card-desc">Intelligent analytics and RAG systems with natural language query across BI platforms</div>
-      <div class="tag-list">
-        <a class="tag" href="https://aws.amazon.com/quicksight/" target="_blank">QuickSight Q</a>
-        <a class="tag" href="https://aws.amazon.com/opensearch-service/" target="_blank">Bedrock RAG + OpenSearch</a>
-        <a class="tag" href="https://azure.microsoft.com/en-us/products/microsoft-fabric" target="_blank">Microsoft Fabric AI</a>
-        <a class="tag" href="https://powerbi.microsoft.com/en-us/copilot-and-ai/" target="_blank">Power BI Copilot</a>
-        <a class="tag" href="https://cloud.google.com/bigquery" target="_blank">BigQuery + Gemini NLQ</a>
-        <a class="tag" href="https://cloud.google.com/looker" target="_blank">Looker AI</a>
-        <a class="tag" href="https://cloud.google.com/vertex-ai/docs/search-and-conversation" target="_blank">Vertex AI Search</a>
-      </div>
-    </div>
-
-    <!-- 5 -->
-    <div class="agent-card">
-      <span class="card-number">05</span>
-      <span class="card-icon">🛡️</span>
-      <div class="card-title">Security &amp; Governance Agents</div>
-      <div class="card-desc">Automated threat triage, compliance validation, and IAM policy intelligence</div>
-      <div class="tag-list">
-        <a class="tag" href="https://aws.amazon.com/guardduty/" target="_blank">GuardDuty + LLM</a>
-        <a class="tag" href="https://aws.amazon.com/security-hub/" target="_blank">Security Hub AI</a>
-        <a class="tag" href="https://azure.microsoft.com/en-us/products/defender-for-cloud" target="_blank">Defender for Cloud</a>
-        <a class="tag" href="https://azure.microsoft.com/en-us/products/microsoft-sentinel" target="_blank">Sentinel AI Copilot</a>
-        <a class="tag" href="https://azure.microsoft.com/en-us/products/entra/id" target="_blank">Entra ID Risk Analysis</a>
-        <a class="tag" href="https://cloud.google.com/security-command-center" target="_blank">GCP SCC</a>
-        <a class="tag" href="https://cloud.google.com/chronicle" target="_blank">Chronicle AI</a>
-      </div>
-    </div>
-
-    <!-- 6 -->
-    <div class="agent-card">
-      <span class="card-number">06</span>
-      <span class="card-icon">🏥</span>
-      <div class="card-title">Industry-Specific Agents</div>
-      <div class="card-desc">Domain-aware agents for healthcare, retail, media, and enterprise sales and supply chain</div>
-      <div class="tag-list">
-        <a class="tag" href="https://aws.amazon.com/healthlake/" target="_blank">HealthLake AI</a>
-        <a class="tag" href="https://aws.amazon.com/personalize/" target="_blank">Amazon Personalize</a>
-        <a class="tag" href="https://www.nuance.com/healthcare/physician-and-clinical-speech/dragon-ambient-experience.html" target="_blank">Nuance DAX</a>
-        <a class="tag" href="https://dynamics.microsoft.com/en-us/copilot/" target="_blank">Dynamics 365 Copilot</a>
-        <a class="tag" href="https://cloud.google.com/solutions/healthcare-life-sciences" target="_blank">Vertex AI Healthcare NLP</a>
-      </div>
-    </div>
-
-    <!-- 7 -->
-    <div class="agent-card">
-      <span class="card-number">07</span>
-      <span class="card-icon">🔧</span>
-      <div class="card-title">Infrastructure &amp; Orchestration Agents</div>
-      <div class="card-desc">Autonomous cloud ops, auto-healing clusters, FinOps optimization, and cross-cloud governance</div>
-      <div class="tag-list">
-        <a class="tag" href="https://aws.amazon.com/eventbridge/" target="_blank">EventBridge Ops Agents</a>
-        <a class="tag" href="https://aws.amazon.com/eks/" target="_blank">Auto-Healing EKS</a>
-        <a class="tag" href="https://aws.amazon.com/aws-cost-management/aws-cost-explorer/" target="_blank">Cost Explorer + LLM</a>
-        <a class="tag" href="https://azure.microsoft.com/en-us/products/azure-automanage" target="_blank">Azure Automanage AI</a>
-        <a class="tag" href="https://cloud.google.com/kubernetes-engine" target="_blank">AutoOps for GKE</a>
-        <a class="tag" href="https://www.finops.org/" target="_blank">FinOps Copilot</a>
-      </div>
-    </div>
-
-    <!-- 8 -->
-    <div class="agent-card">
-      <span class="card-number">08</span>
-      <span class="card-icon">🌐</span>
-      <div class="card-title">Cross-Cloud &amp; Agnostic Patterns</div>
-      <div class="card-desc">Framework-level orchestration patterns that operate across any cloud provider</div>
-      <div class="tag-list">
-        <a class="tag" href="https://python.langchain.com/" target="_blank">LangChain</a>
-        <a class="tag" href="https://github.com/microsoft/autogen" target="_blank">AutoGen</a>
-        <a class="tag" href="https://www.crewai.com/" target="_blank">CrewAI</a>
-        <a class="tag" href="#" target="_blank">Self-Healing DevSecOps</a>
-        <a class="tag" href="#" target="_blank">SOC Triage Agents</a>
-        <a class="tag" href="#" target="_blank">CI/CD Deploy Agents</a>
-        <a class="tag" href="#" target="_blank">Prompt Guardrail Agents</a>
-        <a class="tag" href="#" target="_blank">FinOps Optimization</a>
-        <a class="tag" href="#" target="_blank">Revenue Optimization AI</a>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ═══════════════════ ARCHITECTURE DIAGRAM ═══════════════════ -->
-  <div class="arch-section">
-    <div class="section-label">Software Factory Architecture</div>
-    <div class="arch-title">AI-Powered Software Factory</div>
-    <p class="arch-sub">End-to-end traffic flow · Cloud resource references · Multi-cloud DevSecOps delivery</p>
-
-    <div class="arch-wrapper">
-      <svg class="arch-diagram" viewBox="0 0 1060 720" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Mono', monospace">
-        <defs>
-          <!-- Arrow markers -->
-          <marker id="arr-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-            <polygon points="0 0, 8 3, 0 6" fill="#00C2FF"/>
-          </marker>
-          <marker id="arr-gold" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-            <polygon points="0 0, 8 3, 0 6" fill="#F5A623"/>
-          </marker>
-          <marker id="arr-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-            <polygon points="0 0, 8 3, 0 6" fill="#00E676"/>
-          </marker>
-          <marker id="arr-red" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-            <polygon points="0 0, 8 3, 0 6" fill="#FF5252"/>
-          </marker>
-
-          <!-- Gradients -->
-          <linearGradient id="grad-aws" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#FF9900" stop-opacity="0.25"/>
-            <stop offset="100%" stop-color="#FF6600" stop-opacity="0.08"/>
-          </linearGradient>
-          <linearGradient id="grad-azure" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#0078D4" stop-opacity="0.25"/>
-            <stop offset="100%" stop-color="#00B4D8" stop-opacity="0.08"/>
-          </linearGradient>
-          <linearGradient id="grad-gcp" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#4285F4" stop-opacity="0.25"/>
-            <stop offset="100%" stop-color="#34A853" stop-opacity="0.08"/>
-          </linearGradient>
-          <linearGradient id="grad-sec" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#FF5252" stop-opacity="0.2"/>
-            <stop offset="100%" stop-color="#B71C1C" stop-opacity="0.05"/>
-          </linearGradient>
-          <linearGradient id="grad-ci" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#7C4DFF" stop-opacity="0.25"/>
-            <stop offset="100%" stop-color="#651FFF" stop-opacity="0.08"/>
-          </linearGradient>
-
-          <!-- Glow filter -->
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="2" result="blur"/>
-            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-        </defs>
-
-        <!-- Background -->
-        <rect width="1060" height="720" fill="#080F1E"/>
-
-        <!-- ── ROW 0: DEVELOPER ENTRY POINTS ── -->
-        <text x="530" y="28" fill="#8A9BBF" font-size="9" letter-spacing="3" text-anchor="middle">DEVELOPER ENTRY POINTS</text>
-
-        <!-- Dev workstation -->
-        <g class="sf-node" onclick="window.open('https://github.com','_blank')">
-          <rect x="30" y="38" width="130" height="52" rx="3" fill="#111D35" stroke="#7C4DFF" stroke-width="1.5"/>
-          <text x="95" y="60" fill="#B39DDB" font-size="10" text-anchor="middle" font-weight="600">👨‍💻 DEV</text>
-          <text x="95" y="75" fill="#7C4DFF" font-size="9" text-anchor="middle">Workstation</text>
-          <text x="95" y="86" fill="#666" font-size="8" text-anchor="middle">Git Push / PR</text>
-        </g>
-
-        <!-- GitHub -->
-        <g class="sf-node" onclick="window.open('https://github.com/features/actions','_blank')">
-          <rect x="200" y="38" width="130" height="52" rx="3" fill="#111D35" stroke="#7C4DFF" stroke-width="1.5"/>
-          <text x="265" y="60" fill="#CE93D8" font-size="10" text-anchor="middle" font-weight="600">🐙 GitHub</text>
-          <text x="265" y="75" fill="#7C4DFF" font-size="9" text-anchor="middle">Source Control</text>
-          <text x="265" y="86" fill="#666" font-size="8" text-anchor="middle">GitHub Actions · Copilot</text>
-        </g>
-
-        <!-- Amazon Q Dev -->
-        <g class="sf-node" onclick="window.open('https://aws.amazon.com/q/developer/','_blank')">
-          <rect x="370" y="38" width="130" height="52" rx="3" fill="#111D35" stroke="#FF9900" stroke-width="1.5"/>
-          <text x="435" y="60" fill="#FFB74D" font-size="10" text-anchor="middle" font-weight="600">🤖 Q Dev</text>
-          <text x="435" y="75" fill="#FF9900" font-size="9" text-anchor="middle">Amazon Q Developer</text>
-          <text x="435" y="86" fill="#666" font-size="8" text-anchor="middle">AI Code Assist</text>
-        </g>
-
-        <!-- Azure DevOps -->
-        <g class="sf-node" onclick="window.open('https://azure.microsoft.com/en-us/products/devops','_blank')">
-          <rect x="540" y="38" width="130" height="52" rx="3" fill="#111D35" stroke="#0078D4" stroke-width="1.5"/>
-          <text x="605" y="60" fill="#64B5F6" font-size="10" text-anchor="middle" font-weight="600">🔷 AzDO</text>
-          <text x="605" y="75" fill="#0078D4" font-size="9" text-anchor="middle">Azure DevOps</text>
-          <text x="605" y="86" fill="#666" font-size="8" text-anchor="middle">Pipelines · AI Assist</text>
-        </g>
-
-        <!-- Gemini Code Assist -->
-        <g class="sf-node" onclick="window.open('https://cloud.google.com/gemini/docs/codeassist/overview','_blank')">
-          <rect x="710" y="38" width="130" height="52" rx="3" fill="#111D35" stroke="#4285F4" stroke-width="1.5"/>
-          <text x="775" y="60" fill="#90CAF9" font-size="10" text-anchor="middle" font-weight="600">💠 Gemini</text>
-          <text x="775" y="75" fill="#4285F4" font-size="9" text-anchor="middle">Code Assist</text>
-          <text x="775" y="86" fill="#666" font-size="8" text-anchor="middle">Cloud Build AI</text>
-        </g>
-
-        <!-- IaC Advisor -->
-        <g class="sf-node" onclick="window.open('https://www.terraform.io/','_blank')">
-          <rect x="880" y="38" width="150" height="52" rx="3" fill="#111D35" stroke="#00C2FF" stroke-width="1.5"/>
-          <text x="955" y="60" fill="#80DEEA" font-size="10" text-anchor="middle" font-weight="600">📋 IaC</text>
-          <text x="955" y="75" fill="#00C2FF" font-size="9" text-anchor="middle">Terraform / CFN</text>
-          <text x="955" y="86" fill="#666" font-size="8" text-anchor="middle">Auto-Remediation Agent</text>
-        </g>
-
-        <!-- FLOW: Dev → GitHub → CI/CD -->
-        <line x1="160" y1="64" x2="198" y2="64" stroke="#00C2FF" stroke-width="1.5" marker-end="url(#arr-blue)"/>
-        <line x1="330" y1="64" x2="368" y2="64" stroke="#00C2FF" stroke-width="1.5" marker-end="url(#arr-blue)"/>
-        <line x1="500" y1="64" x2="538" y2="64" stroke="#00C2FF" stroke-width="1.5" marker-end="url(#arr-blue)"/>
-        <line x1="670" y1="64" x2="708" y2="64" stroke="#00C2FF" stroke-width="1.5" marker-end="url(#arr-blue)"/>
-        <line x1="840" y1="64" x2="878" y2="64" stroke="#00C2FF" stroke-width="1.5" marker-end="url(#arr-blue)"/>
-
-        <!-- ── ROW 1: CI/CD PIPELINE ── -->
-        <!-- Zone box -->
-        <rect x="20" y="118" width="1020" height="90" rx="4" fill="url(#grad-ci)" stroke="#7C4DFF" stroke-width="1" stroke-dasharray="4,3"/>
-        <text x="36" y="134" fill="#7C4DFF" font-size="9" letter-spacing="2">CI / CD PIPELINE ZONE</text>
-
-        <!-- Pipeline stages -->
-        <g class="sf-node" onclick="window.open('https://github.com/features/actions','_blank')">
-          <rect x="40" y="140" width="108" height="52" rx="3" fill="#1A1535" stroke="#7C4DFF" stroke-width="1"/>
-          <text x="94" y="162" fill="#CE93D8" font-size="10" text-anchor="middle" font-weight="600">📥 BUILD</text>
-          <text x="94" y="177" fill="#9E9E9E" font-size="8" text-anchor="middle">GitHub Actions</text>
-          <text x="94" y="187" fill="#666" font-size="8" text-anchor="middle">CodeBuild · Cloud Build</text>
-        </g>
-
-        <g class="sf-node" onclick="window.open('https://aws.amazon.com/codepipeline/','_blank')">
-          <rect x="170" y="140" width="108" height="52" rx="3" fill="#1A1535" stroke="#7C4DFF" stroke-width="1"/>
-          <text x="224" y="162" fill="#CE93D8" font-size="10" text-anchor="middle" font-weight="600">🧪 TEST</text>
-          <text x="224" y="177" fill="#9E9E9E" font-size="8" text-anchor="middle">Unit · Integration</text>
-          <text x="224" y="187" fill="#666" font-size="8" text-anchor="middle">SAST · DAST · SCA</text>
-        </g>
-
-        <g class="sf-node" onclick="window.open('https://aws.amazon.com/ecr/','_blank')">
-          <rect x="300" y="140" width="108" height="52" rx="3" fill="#1A1535" stroke="#7C4DFF" stroke-width="1"/>
-          <text x="354" y="162" fill="#CE93D8" font-size="10" text-anchor="middle" font-weight="600">📦 PACKAGE</text>
-          <text x="354" y="177" fill="#9E9E9E" font-size="8" text-anchor="middle">ECR · ACR · GAR</text>
-          <text x="354" y="187" fill="#666" font-size="8" text-anchor="middle">Container Registry</text>
-        </g>
-
-        <g class="sf-node" onclick="window.open('https://aquasecurity.github.io/trivy/','_blank')">
-          <rect x="430" y="140" width="108" height="52" rx="3" fill="#1A1535" stroke="#FF5252" stroke-width="1"/>
-          <text x="484" y="162" fill="#EF9A9A" font-size="10" text-anchor="middle" font-weight="600">🔒 SCAN</text>
-          <text x="484" y="177" fill="#9E9E9E" font-size="8" text-anchor="middle">Trivy · Checkov</text>
-          <text x="484" y="187" fill="#666" font-size="8" text-anchor="middle">Secret Scan · IaC Lint</text>
-        </g>
-
-        <g class="sf-node" onclick="window.open('https://argoproj.github.io/cd/','_blank')">
-          <rect x="560" y="140" width="108" height="52" rx="3" fill="#1A1535" stroke="#7C4DFF" stroke-width="1"/>
-          <text x="614" y="162" fill="#CE93D8" font-size="10" text-anchor="middle" font-weight="600">🚀 DEPLOY</text>
-          <text x="614" y="177" fill="#9E9E9E" font-size="8" text-anchor="middle">ArgoCD · Flux</text>
-          <text x="614" y="187" fill="#666" font-size="8" text-anchor="middle">GitOps · Helm · Kustomize</text>
-        </g>
-
-        <g class="sf-node" onclick="window.open('https://aws.amazon.com/bedrock/agents/','_blank')">
-          <rect x="690" y="140" width="130" height="52" rx="3" fill="#1A1535" stroke="#00C2FF" stroke-width="1"/>
-          <text x="755" y="162" fill="#80DEEA" font-size="10" text-anchor="middle" font-weight="600">🤖 AI AGENT</text>
-          <text x="755" y="177" fill="#00C2FF" font-size="9" text-anchor="middle">Autonomous Deploy Agent</text>
-          <text x="755" y="187" fill="#666" font-size="8" text-anchor="middle">Bedrock · Azure AI Agent</text>
-        </g>
-
-        <g class="sf-node" onclick="window.open('https://www.hashicorp.com/sentinel','_blank')">
-          <rect x="840" y="140" width="190" height="52" rx="3" fill="#1A1535" stroke="#F5A623" stroke-width="1"/>
-          <text x="935" y="162" fill="#FFD54F" font-size="10" text-anchor="middle" font-weight="600">📋 POLICY GATE</text>
-          <text x="935" y="177" fill="#F5A623" font-size="9" text-anchor="middle">Sentinel · OPA / Gatekeeper</text>
-          <text x="935" y="187" fill="#666" font-size="8" text-anchor="middle">Compliance Enforcement</text>
-        </g>
-
-        <!-- CI/CD arrows -->
-        <line x1="148" y1="166" x2="168" y2="166" stroke="#7C4DFF" stroke-width="1.5" marker-end="url(#arr-blue)"/>
-        <line x1="278" y1="166" x2="298" y2="166" stroke="#7C4DFF" stroke-width="1.5" marker-end="url(#arr-blue)"/>
-        <line x1="408" y1="166" x2="428" y2="166" stroke="#FF5252" stroke-width="1.5" marker-end="url(#arr-red)"/>
-        <line x1="538" y1="166" x2="558" y2="166" stroke="#7C4DFF" stroke-width="1.5" marker-end="url(#arr-blue)"/>
-        <line x1="668" y1="166" x2="688" y2="166" stroke="#00C2FF" stroke-width="1.5" marker-end="url(#arr-blue)"/>
-        <line x1="820" y1="166" x2="838" y2="166" stroke="#F5A623" stroke-width="1.5" marker-end="url(#arr-gold)"/>
-
-        <!-- Entry → Pipeline arrows (vertical) -->
-        <line x1="265" y1="90" x2="265" y2="138" stroke="#7C4DFF" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-blue)"/>
-        <line x1="614" y1="90" x2="614" y2="138" stroke="#0078D4" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-blue)"/>
-        <line x1="955" y1="90" x2="935" y2="138" stroke="#00C2FF" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-blue)"/>
-
-        <!-- ── ROW 2: CLOUD ZONES ── -->
-        <!-- AWS Zone -->
-        <rect x="20" y="240" width="320" height="210" rx="4" fill="url(#grad-aws)" stroke="#FF9900" stroke-width="1.5" stroke-dasharray="5,3"/>
-        <text x="40" y="258" fill="#FF9900" font-size="9" letter-spacing="2" font-weight="600">☁ AWS ZONE</text>
-
-        <!-- EKS -->
-        <g class="sf-node" onclick="window.open('https://aws.amazon.com/eks/','_blank')">
-          <rect x="35" y="265" width="130" height="50" rx="3" fill="#1A0F00" stroke="#FF9900" stroke-width="1"/>
-          <text x="100" y="285" fill="#FFB74D" font-size="10" text-anchor="middle" font-weight="600">⚡ EKS</text>
-          <text x="100" y="298" fill="#FF9900" font-size="8" text-anchor="middle">Elastic Kubernetes</text>
-          <text x="100" y="309" fill="#666" font-size="8" text-anchor="middle">Auto-healing Agent</text>
-        </g>
-
-        <!-- Bedrock -->
-        <g class="sf-node" onclick="window.open('https://aws.amazon.com/bedrock/','_blank')">
-          <rect x="185" y="265" width="130" height="50" rx="3" fill="#1A0F00" stroke="#FF9900" stroke-width="1"/>
-          <text x="250" y="285" fill="#FFB74D" font-size="10" text-anchor="middle" font-weight="600">🦾 Bedrock</text>
-          <text x="250" y="298" fill="#FF9900" font-size="8" text-anchor="middle">LLM Gateway</text>
-          <text x="250" y="309" fill="#666" font-size="8" text-anchor="middle">RAG · Agents</text>
-        </g>
-
-        <!-- GuardDuty -->
-        <g class="sf-node" onclick="window.open('https://aws.amazon.com/guardduty/','_blank')">
-          <rect x="35" y="330" width="130" height="50" rx="3" fill="#1A0F00" stroke="#FF5252" stroke-width="1"/>
-          <text x="100" y="350" fill="#EF9A9A" font-size="10" text-anchor="middle" font-weight="600">🛡 GuardDuty</text>
-          <text x="100" y="363" fill="#FF5252" font-size="8" text-anchor="middle">Threat Detection</text>
-          <text x="100" y="374" fill="#666" font-size="8" text-anchor="middle">LLM Summarization</text>
-        </g>
-
-        <!-- OpenSearch -->
-        <g class="sf-node" onclick="window.open('https://aws.amazon.com/opensearch-service/','_blank')">
-          <rect x="185" y="330" width="130" height="50" rx="3" fill="#1A0F00" stroke="#FF9900" stroke-width="1"/>
-          <text x="250" y="350" fill="#FFB74D" font-size="10" text-anchor="middle" font-weight="600">🔍 OpenSearch</text>
-          <text x="250" y="363" fill="#FF9900" font-size="8" text-anchor="middle">Vector DB · KNN</text>
-          <text x="250" y="374" fill="#666" font-size="8" text-anchor="middle">S3 Knowledge Base</text>
-        </g>
-
-        <!-- Cost Explorer -->
-        <g class="sf-node" onclick="window.open('https://aws.amazon.com/aws-cost-management/aws-cost-explorer/','_blank')">
-          <rect x="35" y="395" width="280" height="40" rx="3" fill="#1A0F00" stroke="#F5A623" stroke-width="1"/>
-          <text x="175" y="412" fill="#FFD54F" font-size="10" text-anchor="middle" font-weight="600">💰 Cost Explorer + FinOps Agent</text>
-          <text x="175" y="427" fill="#F5A623" font-size="8" text-anchor="middle">LLM Cost Optimization · CloudWatch Metrics</text>
-        </g>
-
-        <!-- Azure Zone -->
-        <rect x="360" y="240" width="320" height="210" rx="4" fill="url(#grad-azure)" stroke="#0078D4" stroke-width="1.5" stroke-dasharray="5,3"/>
-        <text x="380" y="258" fill="#0078D4" font-size="9" letter-spacing="2" font-weight="600">🔷 AZURE ZONE</text>
-
-        <!-- AKS -->
-        <g class="sf-node" onclick="window.open('https://azure.microsoft.com/en-us/products/kubernetes-service','_blank')">
-          <rect x="375" y="265" width="130" height="50" rx="3" fill="#00051A" stroke="#0078D4" stroke-width="1"/>
-          <text x="440" y="285" fill="#64B5F6" font-size="10" text-anchor="middle" font-weight="600">⚡ AKS</text>
-          <text x="440" y="298" fill="#0078D4" font-size="8" text-anchor="middle">Azure Kubernetes</text>
-          <text x="440" y="309" fill="#666" font-size="8" text-anchor="middle">Auto-healing Agent</text>
-        </g>
-
-        <!-- Azure OpenAI -->
-        <g class="sf-node" onclick="window.open('https://azure.microsoft.com/en-us/products/ai-services/openai-service','_blank')">
-          <rect x="525" y="265" width="130" height="50" rx="3" fill="#00051A" stroke="#0078D4" stroke-width="1"/>
-          <text x="590" y="285" fill="#64B5F6" font-size="10" text-anchor="middle" font-weight="600">🧠 Azure OpenAI</text>
-          <text x="590" y="298" fill="#0078D4" font-size="8" text-anchor="middle">GPT-4 · RAG</text>
-          <text x="590" y="309" fill="#666" font-size="8" text-anchor="middle">AI Agent Service</text>
-        </g>
-
-        <!-- Sentinel -->
-        <g class="sf-node" onclick="window.open('https://azure.microsoft.com/en-us/products/microsoft-sentinel','_blank')">
-          <rect x="375" y="330" width="130" height="50" rx="3" fill="#00051A" stroke="#FF5252" stroke-width="1"/>
-          <text x="440" y="350" fill="#EF9A9A" font-size="10" text-anchor="middle" font-weight="600">🛡 Sentinel</text>
-          <text x="440" y="363" fill="#FF5252" font-size="8" text-anchor="middle">SIEM · SOAR</text>
-          <text x="440" y="374" fill="#666" font-size="8" text-anchor="middle">AI Triage Copilot</text>
-        </g>
-
-        <!-- Entra ID -->
-        <g class="sf-node" onclick="window.open('https://azure.microsoft.com/en-us/products/entra/id','_blank')">
-          <rect x="525" y="330" width="130" height="50" rx="3" fill="#00051A" stroke="#0078D4" stroke-width="1"/>
-          <text x="590" y="350" fill="#64B5F6" font-size="10" text-anchor="middle" font-weight="600">🔐 Entra ID</text>
-          <text x="590" y="363" fill="#0078D4" font-size="8" text-anchor="middle">Zero Trust IAM</text>
-          <text x="590" y="374" fill="#666" font-size="8" text-anchor="middle">Risk Analysis Agent</text>
-        </g>
-
-        <!-- FinOps Copilot -->
-        <g class="sf-node" onclick="window.open('https://azure.microsoft.com/en-us/products/azure-automanage','_blank')">
-          <rect x="375" y="395" width="280" height="40" rx="3" fill="#00051A" stroke="#F5A623" stroke-width="1"/>
-          <text x="515" y="412" fill="#FFD54F" font-size="10" text-anchor="middle" font-weight="600">💰 Azure Automanage · FinOps Copilot</text>
-          <text x="515" y="427" fill="#F5A623" font-size="8" text-anchor="middle">Policy Compliance · Cost Governance AI</text>
-        </g>
-
-        <!-- GCP Zone -->
-        <rect x="700" y="240" width="340" height="210" rx="4" fill="url(#grad-gcp)" stroke="#4285F4" stroke-width="1.5" stroke-dasharray="5,3"/>
-        <text x="720" y="258" fill="#4285F4" font-size="9" letter-spacing="2" font-weight="600">💠 GCP ZONE</text>
-
-        <!-- GKE -->
-        <g class="sf-node" onclick="window.open('https://cloud.google.com/kubernetes-engine','_blank')">
-          <rect x="715" y="265" width="140" height="50" rx="3" fill="#000A1A" stroke="#4285F4" stroke-width="1"/>
-          <text x="785" y="285" fill="#90CAF9" font-size="10" text-anchor="middle" font-weight="600">⚡ GKE</text>
-          <text x="785" y="298" fill="#4285F4" font-size="8" text-anchor="middle">Google Kubernetes</text>
-          <text x="785" y="309" fill="#666" font-size="8" text-anchor="middle">AutoOps Agent</text>
-        </g>
-
-        <!-- Vertex AI -->
-        <g class="sf-node" onclick="window.open('https://cloud.google.com/vertex-ai','_blank')">
-          <rect x="875" y="265" width="140" height="50" rx="3" fill="#000A1A" stroke="#4285F4" stroke-width="1"/>
-          <text x="945" y="285" fill="#90CAF9" font-size="10" text-anchor="middle" font-weight="600">🧠 Vertex AI</text>
-          <text x="945" y="298" fill="#4285F4" font-size="8" text-anchor="middle">Gemini · Agent Builder</text>
-          <text x="945" y="309" fill="#666" font-size="8" text-anchor="middle">Extensions · NLQ</text>
-        </g>
-
-        <!-- Chronicle -->
-        <g class="sf-node" onclick="window.open('https://cloud.google.com/chronicle','_blank')">
-          <rect x="715" y="330" width="140" height="50" rx="3" fill="#000A1A" stroke="#FF5252" stroke-width="1"/>
-          <text x="785" y="350" fill="#EF9A9A" font-size="10" text-anchor="middle" font-weight="600">🛡 Chronicle</text>
-          <text x="785" y="363" fill="#FF5252" font-size="8" text-anchor="middle">SIEM · AI Triage</text>
-          <text x="785" y="374" fill="#666" font-size="8" text-anchor="middle">SCC Investigation</text>
-        </g>
-
-        <!-- BigQuery -->
-        <g class="sf-node" onclick="window.open('https://cloud.google.com/bigquery','_blank')">
-          <rect x="875" y="330" width="140" height="50" rx="3" fill="#000A1A" stroke="#34A853" stroke-width="1"/>
-          <text x="945" y="350" fill="#A5D6A7" font-size="10" text-anchor="middle" font-weight="600">📊 BigQuery</text>
-          <text x="945" y="363" fill="#34A853" font-size="8" text-anchor="middle">Gemini NLQ</text>
-          <text x="945" y="374" fill="#666" font-size="8" text-anchor="middle">Looker AI · Analytics</text>
-        </g>
-
-        <!-- AutoOps FinOps -->
-        <g class="sf-node" onclick="window.open('https://cloud.google.com/products/operations','_blank')">
-          <rect x="715" y="395" width="300" height="40" rx="3" fill="#000A1A" stroke="#F5A623" stroke-width="1"/>
-          <text x="865" y="412" fill="#FFD54F" font-size="10" text-anchor="middle" font-weight="600">💰 GCP AutoOps · Cost Governance AI</text>
-          <text x="865" y="427" fill="#F5A623" font-size="8" text-anchor="middle">Cloud Cost Intelligence · FinOps Framework</text>
-        </g>
-
-        <!-- Vertical deploy arrows from CI/CD → cloud zones -->
-        <line x1="175" y1="208" x2="175" y2="238" stroke="#FF9900" stroke-width="2" marker-end="url(#arr-gold)"/>
-        <line x1="520" y1="208" x2="515" y2="238" stroke="#0078D4" stroke-width="2" marker-end="url(#arr-blue)"/>
-        <line x1="820" y1="208" x2="865" y2="238" stroke="#4285F4" stroke-width="2" marker-end="url(#arr-blue)"/>
-        <text x="175" y="226" fill="#FF9900" font-size="8" text-anchor="middle">Deploy</text>
-        <text x="515" y="226" fill="#0078D4" font-size="8" text-anchor="middle">Deploy</text>
-        <text x="865" y="226" fill="#4285F4" font-size="8" text-anchor="middle">Deploy</text>
-
-        <!-- ── ROW 3: CROSS-CLOUD ORCHESTRATION ── -->
-        <rect x="20" y="480" width="1020" height="115" rx="4" fill="rgba(0,194,255,0.05)" stroke="#00C2FF" stroke-width="1" stroke-dasharray="5,3"/>
-        <text x="40" y="496" fill="#00C2FF" font-size="9" letter-spacing="2">CROSS-CLOUD ORCHESTRATION · OBSERVABILITY · SECURITY MESH</text>
-
-        <!-- LangChain/AutoGen -->
-        <g class="sf-node" onclick="window.open('https://python.langchain.com/','_blank')">
-          <rect x="35" y="502" width="155" height="82" rx="3" fill="#0D1B2E" stroke="#00C2FF" stroke-width="1.5"/>
-          <text x="112" y="525" fill="#80DEEA" font-size="10" text-anchor="middle" font-weight="600">🌐 Multi-Agent Orch.</text>
-          <text x="112" y="540" fill="#00C2FF" font-size="8" text-anchor="middle">LangChain · AutoGen</text>
-          <text x="112" y="553" fill="#00C2FF" font-size="8" text-anchor="middle">CrewAI · RAG Mesh</text>
-          <text x="112" y="568" fill="#666" font-size="8" text-anchor="middle">Cross-cloud routing</text>
-          <text x="112" y="578" fill="#666" font-size="8" text-anchor="middle">Prompt guardrails</text>
-        </g>
-
-        <!-- Prometheus / Grafana -->
-        <g class="sf-node" onclick="window.open('https://grafana.com/','_blank')">
-          <rect x="205" y="502" width="155" height="82" rx="3" fill="#0D1B2E" stroke="#F5A623" stroke-width="1.5"/>
-          <text x="282" y="525" fill="#FFD54F" font-size="10" text-anchor="middle" font-weight="600">📡 Observability</text>
-          <text x="282" y="540" fill="#F5A623" font-size="8" text-anchor="middle">Prometheus · Grafana</text>
-          <text x="282" y="553" fill="#F5A623" font-size="8" text-anchor="middle">OpenTelemetry · Jaeger</text>
-          <text x="282" y="568" fill="#666" font-size="8" text-anchor="middle">Latency · Hallucination</text>
-          <text x="282" y="578" fill="#666" font-size="8" text-anchor="middle">Cost/req · Throughput</text>
-        </g>
-
-        <!-- Zero Trust -->
-        <g class="sf-node" onclick="window.open('https://www.nist.gov/publications/zero-trust-architecture','_blank')">
-          <rect x="375" y="502" width="155" height="82" rx="3" fill="#0D1B2E" stroke="#FF5252" stroke-width="1.5"/>
-          <text x="452" y="525" fill="#EF9A9A" font-size="10" text-anchor="middle" font-weight="600">🔒 Zero Trust</text>
-          <text x="452" y="540" fill="#FF5252" font-size="8" text-anchor="middle">NIST 800-53</text>
-          <text x="452" y="553" fill="#FF5252" font-size="8" text-anchor="middle">FedRAMP · CMMC L2</text>
-          <text x="452" y="568" fill="#666" font-size="8" text-anchor="middle">HIPAA · HITRUST</text>
-          <text x="452" y="578" fill="#666" font-size="8" text-anchor="middle">SOC 2 · PCI DSS</text>
-        </g>
-
-        <!-- SOC Agent -->
-        <g class="sf-node">
-          <rect x="545" y="502" width="155" height="82" rx="3" fill="#0D1B2E" stroke="#FF5252" stroke-width="1.5"/>
-          <text x="622" y="525" fill="#EF9A9A" font-size="10" text-anchor="middle" font-weight="600">🚨 SOC AI Triage</text>
-          <text x="622" y="540" fill="#FF5252" font-size="8" text-anchor="middle">Autonomous Triage</text>
-          <text x="622" y="553" fill="#FF5252" font-size="8" text-anchor="middle">GuardDuty+Sentinel</text>
-          <text x="622" y="568" fill="#666" font-size="8" text-anchor="middle">Chronicle AI</text>
-          <text x="622" y="578" fill="#666" font-size="8" text-anchor="middle">Incident Response</text>
-        </g>
-
-        <!-- Self-Healing -->
-        <g class="sf-node">
-          <rect x="715" y="502" width="155" height="82" rx="3" fill="#0D1B2E" stroke="#00E676" stroke-width="1.5"/>
-          <text x="792" y="525" fill="#A5D6A7" font-size="10" text-anchor="middle" font-weight="600">♻ Self-Healing</text>
-          <text x="792" y="540" fill="#00E676" font-size="8" text-anchor="middle">EKS · AKS · GKE</text>
-          <text x="792" y="553" fill="#00E676" font-size="8" text-anchor="middle">Auto-remediation</text>
-          <text x="792" y="568" fill="#666" font-size="8" text-anchor="middle">Policy enforcement</text>
-          <text x="792" y="578" fill="#666" font-size="8" text-anchor="middle">OPA Gatekeeper</text>
-        </g>
-
-        <!-- FinOps Cross-cloud -->
-        <g class="sf-node" onclick="window.open('https://www.finops.org/','_blank')">
-          <rect x="885" y="502" width="145" height="82" rx="3" fill="#0D1B2E" stroke="#F5A623" stroke-width="1.5"/>
-          <text x="957" y="525" fill="#FFD54F" font-size="10" text-anchor="middle" font-weight="600">💰 FinOps AI</text>
-          <text x="957" y="540" fill="#F5A623" font-size="8" text-anchor="middle">Cross-cloud Cost</text>
-          <text x="957" y="553" fill="#F5A623" font-size="8" text-anchor="middle">Governance Agent</text>
-          <text x="957" y="568" fill="#666" font-size="8" text-anchor="middle">Revenue Optimization</text>
-          <text x="957" y="578" fill="#666" font-size="8" text-anchor="middle">Marketing AI Agents</text>
-        </g>
-
-        <!-- Cloud → Orchestration arrows -->
-        <line x1="175" y1="450" x2="112" y2="500" stroke="#00C2FF" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-blue)"/>
-        <line x1="515" y1="450" x2="622" y2="500" stroke="#0078D4" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-blue)"/>
-        <line x1="865" y1="450" x2="792" y2="500" stroke="#4285F4" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arr-blue)"/>
-
-        <!-- Horizontal connect line through orchestration -->
-        <line x1="190" y1="543" x2="203" y2="543" stroke="#00C2FF" stroke-width="1" marker-end="url(#arr-blue)"/>
-        <line x1="360" y1="543" x2="373" y2="543" stroke="#00C2FF" stroke-width="1" marker-end="url(#arr-blue)"/>
-        <line x1="530" y1="543" x2="543" y2="543" stroke="#FF5252" stroke-width="1" marker-end="url(#arr-red)"/>
-        <line x1="700" y1="543" x2="713" y2="543" stroke="#00E676" stroke-width="1" marker-end="url(#arr-green)"/>
-        <line x1="870" y1="543" x2="883" y2="543" stroke="#F5A623" stroke-width="1" marker-end="url(#arr-gold)"/>
-
-        <!-- ── FEEDBACK LOOP ── -->
-        <text x="530" y="618" fill="#8A9BBF" font-size="9" text-anchor="middle" letter-spacing="2">FEEDBACK LOOP — OBSERVABILITY → LLM EVALUATION → CONTINUOUS IMPROVEMENT</text>
-        <line x1="282" y1="584" x2="282" y2="608" stroke="#F5A623" stroke-width="1" stroke-dasharray="2,3"/>
-        <line x1="282" y1="608" x2="778" y2="608" stroke="#F5A623" stroke-width="1" stroke-dasharray="2,3"/>
-        <line x1="778" y1="584" x2="778" y2="608" stroke="#F5A623" stroke-width="1" stroke-dasharray="2,3"/>
-        <polygon points="278,608 282,616 286,608" fill="#F5A623" opacity="0.7"/>
-
-        <!-- Human-in-the-loop -->
-        <rect x="440" y="625" width="200" height="30" rx="3" fill="#0D1B2E" stroke="#00C2FF" stroke-width="1"/>
-        <text x="540" y="638" fill="#80DEEA" font-size="9" text-anchor="middle" font-weight="600">👤 Human-in-the-Loop</text>
-        <text x="540" y="649" fill="#666" font-size="8" text-anchor="middle">A/B Testing · Shadow Deploy · Feedback</text>
-        <line x1="530" y1="608" x2="530" y2="623" stroke="#00C2FF" stroke-width="1" marker-end="url(#arr-blue)"/>
-      </svg>
-
-      <!-- Legend -->
-      <div class="legend">
-        <div class="legend-item">
-          <div class="legend-dot" style="background:#00C2FF"></div> Data / Deploy Flow
-        </div>
-        <div class="legend-item">
-          <div class="legend-dot" style="background:#FF5252"></div> Security Scan / Alert
-        </div>
-        <div class="legend-item">
-          <div class="legend-dot" style="background:#F5A623"></div> Policy Gate / FinOps
-        </div>
-        <div class="legend-item">
-          <div class="legend-dot" style="background:#00E676"></div> Self-Healing / Remediation
-        </div>
-        <div class="legend-item">
-          <div class="legend-dot" style="background:#7C4DFF"></div> CI/CD Pipeline
-        </div>
-        <div class="legend-item" style="font-style:italic">
-          🖱 Click any node to open cloud documentation
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- HANDS-ON IMPLEMENTATION AGENTS -->
-  <div class="section-label">Hands-On Implementation Agents</div>
-
-  <div class="intro-block" style="border-left-color: var(--gold);">
-    Beyond enterprise cloud platform specializations, these are the concrete, buildable agent architectures that form the foundation of modern AI engineering. Each agent below includes a full pipeline architecture, required skills, and recommended tooling &#8212; designed for production deployment.
-  </div>
-
-  <div class="impl-grid">
-
-    <!-- Agent 1: AI Research Agent -->
-    <div class="impl-card">
-      <span class="impl-number">01</span>
-      <span class="impl-icon">&#128300;</span>
-      <div class="impl-title">AI Research Agent</div>
-      <div class="impl-subtitle">Finds, summarizes, and compares research papers, blogs, and documentation.</div>
-      <div class="impl-section-title">Skills</div>
-      <ul class="impl-list">
-        <li>RAG (Retrieval-Augmented Generation)</li>
-        <li>Vector databases</li>
-        <li>Web scraping</li>
-        <li>Multi-step reasoning</li>
-      </ul>
-      <div class="impl-section-title">Tools</div>
-      <ul class="impl-list">
-        <li>Python &#183; LangChain / LlamaIndex</li>
-        <li>FAISS / Pinecone</li>
-        <li>OpenAI API &#183; BeautifulSoup</li>
-      </ul>
-      <div class="impl-arch">
-        <div class="impl-arch-label">Architecture</div>
-        <span class="step">User Query</span> <span class="arrow">&#8594;</span>
-        <span class="step">Task Planner Agent</span> <span class="arrow">&#8594;</span>
-        <span class="step">Web Search / PDF Retrieval</span> <span class="arrow">&#8594;</span>
-        <span class="step">Document Processing</span> <span class="arrow">&#8594;</span>
-        <span class="step">Embedding Model</span> <span class="arrow">&#8594;</span>
-        <span class="step">Vector Database</span> <span class="arrow">&#8594;</span>
-        <span class="step">Retriever (RAG)</span> <span class="arrow">&#8594;</span>
-        <span class="step">LLM Reasoning Engine</span> <span class="arrow">&#8594;</span>
-        <span class="step">Final Research Report</span>
-      </div>
-    </div>
-
-    <!-- Agent 2: Recommendation Agent -->
-    <div class="impl-card">
-      <span class="impl-number">02</span>
-      <span class="impl-icon">&#11088;</span>
-      <div class="impl-title">Recommendation Agent</div>
-      <div class="impl-subtitle">Suggests products, videos, courses, or content based on user behavior.</div>
-      <div class="impl-section-title">Skills</div>
-      <ul class="impl-list">
-        <li>Embeddings &#183; Personalization</li>
-        <li>User profiling</li>
-        <li>Ranking systems</li>
-      </ul>
-      <div class="impl-section-title">Tools</div>
-      <ul class="impl-list">
-        <li>Scikit-learn &#183; TensorFlow / PyTorch</li>
-        <li>PostgreSQL &#183; Redis</li>
-      </ul>
-      <div class="impl-arch">
-        <div class="impl-arch-label">Architecture</div>
-        <span class="step">User Activity</span> <span class="arrow">&#8594;</span>
-        <span class="step">Data Collection</span> <span class="arrow">&#8594;</span>
-        <span class="step">User Profile Builder</span> <span class="arrow">&#8594;</span>
-        <span class="step">Feature Engineering</span> <span class="arrow">&#8594;</span>
-        <span class="step">Recommendation Engine</span> <span class="arrow">&#8594;</span>
-        <span class="step">Vector DB / Embeddings</span> <span class="arrow">&#8594;</span>
-        <span class="step">LLM Personalization</span> <span class="arrow">&#8594;</span>
-        <span class="step">Recommendation API</span> <span class="arrow">&#8594;</span>
-        <span class="step">Frontend App</span>
-      </div>
-    </div>
-
-    <!-- Agent 3: AI Customer Support Agent -->
-    <div class="impl-card">
-      <span class="impl-number">03</span>
-      <span class="impl-icon">&#128172;</span>
-      <div class="impl-title">AI Customer Support Agent</div>
-      <div class="impl-subtitle">Handles FAQs, customer tickets, and business queries automatically.</div>
-      <div class="impl-section-title">Skills</div>
-      <ul class="impl-list">
-        <li>Conversational AI &#183; Memory handling</li>
-        <li>Tool calling &#183; Workflow automation</li>
-      </ul>
-      <div class="impl-section-title">Tools</div>
-      <ul class="impl-list">
-        <li>OpenAI API &#183; LangGraph &#183; FastAPI</li>
-        <li>WhatsApp API &#183; Telegram API</li>
-      </ul>
-      <div class="impl-section-title">Advanced Features</div>
-      <ul class="impl-list">
-        <li>Voice support &#183; CRM integration</li>
-        <li>Multilingual responses</li>
-      </ul>
-      <div class="impl-arch">
-        <div class="impl-arch-label">Architecture</div>
-        <span class="step">Customer Query</span> <span class="arrow">&#8594;</span>
-        <span class="step">Channel Integrations</span> <span class="arrow">&#8594;</span>
-        <span class="step">Intent Detection</span> <span class="arrow">&#8594;</span>
-        <span class="step">Knowledge Retrieval (RAG)</span> <span class="arrow">&#8594;</span>
-        <span class="step">LLM Reasoning</span> <span class="arrow">&#8594;</span>
-        <span class="step">Action / Tool Calling</span> <span class="arrow">&#8594;</span>
-        <span class="step">Response Generation</span> <span class="arrow">&#8594;</span>
-        <span class="step">Human Escalation</span> <span class="arrow">&#8594;</span>
-        <span class="step">Memory Storage</span>
-      </div>
-    </div>
-
-    <!-- Agent 4: Coding Agent -->
-    <div class="impl-card">
-      <span class="impl-number">04</span>
-      <span class="impl-icon">&#9000;</span>
-      <div class="impl-title">Coding Agent</div>
-      <div class="impl-subtitle">Writes, debugs, reviews, and explains code.</div>
-      <div class="impl-section-title">Skills</div>
-      <ul class="impl-list">
-        <li>Code generation &#183; AST parsing</li>
-        <li>Function calling &#183; Agentic workflows</li>
-      </ul>
-      <div class="impl-section-title">Tools</div>
-      <ul class="impl-list">
-        <li>GitHub API &#183; Docker</li>
-        <li>VS Code Extensions &#183; OpenAI / Claude APIs</li>
-      </ul>
-      <div class="impl-arch">
-        <div class="impl-arch-label">Architecture</div>
-        <span class="step">User Prompt</span> <span class="arrow">&#8594;</span>
-        <span class="step">Task Planning Agent</span> <span class="arrow">&#8594;</span>
-        <span class="step">Code Retrieval + Context</span> <span class="arrow">&#8594;</span>
-        <span class="step">LLM Reasoning Engine</span> <span class="arrow">&#8594;</span>
-        <span class="step">Code Generation</span> <span class="arrow">&#8594;</span>
-        <span class="step">Testing &amp; Validation</span> <span class="arrow">&#8594;</span>
-        <span class="step">Sandbox Execution</span> <span class="arrow">&#8594;</span>
-        <span class="step">Bug Detection</span> <span class="arrow">&#8594;</span>
-        <span class="step">Git Commit / PR</span>
-      </div>
-    </div>
-
-    <!-- Agent 5: Autonomous Browser Agent -->
-    <div class="impl-card">
-      <span class="impl-number">05</span>
-      <span class="impl-icon">&#127760;</span>
-      <div class="impl-title">Autonomous Browser Agent</div>
-      <div class="impl-subtitle">Performs tasks on websites automatically.</div>
-      <div class="impl-section-title">Skills</div>
-      <ul class="impl-list">
-        <li>Browser automation &#183; Computer vision</li>
-        <li>Planning agents &#183; Web interaction</li>
-      </ul>
-      <div class="impl-section-title">Tools</div>
-      <ul class="impl-list">
-        <li>Playwright &#183; Selenium</li>
-        <li>Browser-use &#183; Vision models</li>
-      </ul>
-      <div class="impl-arch">
-        <div class="impl-arch-label">Architecture</div>
-        <span class="step">User Goal</span> <span class="arrow">&#8594;</span>
-        <span class="step">Task Planning Agent</span> <span class="arrow">&#8594;</span>
-        <span class="step">Browser Controller</span> <span class="arrow">&#8594;</span>
-        <span class="step">Web Page Understanding (DOM + Vision)</span> <span class="arrow">&#8594;</span>
-        <span class="step">LLM Decision Engine</span> <span class="arrow">&#8594;</span>
-        <span class="step">Action Execution</span> <span class="arrow">&#8594;</span>
-        <span class="step">Observation &amp; Feedback Loop</span> <span class="arrow">&#8594;</span>
-        <span class="step">Task Completion</span>
-      </div>
-    </div>
-
-    <!-- Agent 6: Multi-Agent Research Team -->
-    <div class="impl-card">
-      <span class="impl-number">06</span>
-      <span class="impl-icon">&#129504;</span>
-      <div class="impl-title">Multi-Agent Research Team</div>
-      <div class="impl-subtitle">Multiple AI agents collaborate like a company team.</div>
-      <div class="impl-section-title">Skills</div>
-      <ul class="impl-list">
-        <li>Agent orchestration &#183; Task delegation</li>
-        <li>Long-term memory &#183; Multi-agent systems</li>
-      </ul>
-      <div class="impl-section-title">Tools</div>
-      <ul class="impl-list">
-        <li>CrewAI &#183; AutoGen &#183; LangGraph</li>
-      </ul>
-      <div class="impl-section-title">Sub-Agents</div>
-      <ul class="impl-list">
-        <li>Researcher &#183; Writer &#183; Critic</li>
-        <li>Planner &#183; Reviewer</li>
-      </ul>
-      <div class="impl-arch">
-        <div class="impl-arch-label">Architecture</div>
-        <span class="step">User Research Goal</span> <span class="arrow">&#8594;</span>
-        <span class="step">Supervisor Agent</span> <span class="arrow">&#8594;</span>
-        <span class="step">Task Distribution Layer</span> <span class="arrow">&#8594;</span>
-        <span class="step">[Web | Data | Coding | Writing] Agents</span> <span class="arrow">&#8594;</span>
-        <span class="step">Shared Memory / KB</span> <span class="arrow">&#8594;</span>
-        <span class="step">Reasoning &amp; Debate</span> <span class="arrow">&#8594;</span>
-        <span class="step">Report Synthesis</span> <span class="arrow">&#8594;</span>
-        <span class="step">Final Report</span>
-      </div>
-    </div>
-
-    <!-- Agent 7: AI Data Analyst Agent -->
-    <div class="impl-card">
-      <span class="impl-number">07</span>
-      <span class="impl-icon">&#128202;</span>
-      <div class="impl-title">AI Data Analyst Agent</div>
-      <div class="impl-subtitle">Analyzes CSV/Excel files and generates insights automatically.</div>
-      <div class="impl-section-title">Skills</div>
-      <ul class="impl-list">
-        <li>Data interpretation &#183; Visualization</li>
-        <li>Automated reporting &#183; SQL generation</li>
-      </ul>
-      <div class="impl-section-title">Tools</div>
-      <ul class="impl-list">
-        <li>Pandas &#183; Matplotlib</li>
-        <li>Power BI &#183; Jupyter Notebook</li>
-      </ul>
-      <div class="impl-arch">
-        <div class="impl-arch-label">Architecture</div>
-        <span class="step">User Query / Business Problem</span> <span class="arrow">&#8594;</span>
-        <span class="step">Data Ingestion</span> <span class="arrow">&#8594;</span>
-        <span class="step">Cleaning &amp; Transformation</span> <span class="arrow">&#8594;</span>
-        <span class="step">SQL / Analytics Agent</span> <span class="arrow">&#8594;</span>
-        <span class="step">LLM Reasoning</span> <span class="arrow">&#8594;</span>
-        <span class="step">Visualization &amp; Insights</span> <span class="arrow">&#8594;</span>
-        <span class="step">Prediction / Forecasting</span> <span class="arrow">&#8594;</span>
-        <span class="step">Report Generation</span> <span class="arrow">&#8594;</span>
-        <span class="step">Dashboard &amp; Decision Support</span>
-      </div>
-    </div>
-
-  </div>
-
-
-  <!-- ═══════════════════ CITADEL CLOUD MANAGEMENT ═══════════════════ -->
-  <div class="section-label">About the Author's Platform</div>
-  <div class="citadel-block">
-    <div class="citadel-logo-row">
-      <div class="citadel-icon">🏰</div>
-      <div>
-        <div class="citadel-title">Citadel Cloud Management</div>
-        <div class="citadel-tagline">Africa's Premier Cloud Education &amp; Digital Skills Platform</div>
-      </div>
-      <a class="citadel-btn" href="https://citadelcloudmanagement.com" target="_blank">Visit Platform ↗</a>
-    </div>
-    <div class="citadel-desc">
-      Citadel Cloud Management is an Africa-focused cloud education and digital skills company founded by Kehinde Ogunlowo — bridging the gap between enterprise-grade cloud expertise and the next generation of African tech talent. The platform delivers world-class training, certifications, and digital resources designed to accelerate cloud adoption across the continent.
-    </div>
-    <div class="citadel-grid">
-      <div class="citadel-card">
-        <div class="citadel-card-icon">🎓</div>
-        <div class="citadel-card-title">Cloud LMS</div>
-        <div class="citadel-card-desc">Enterprise-grade Learning Management System with structured learning paths across AWS, Azure, GCP, DevSecOps, AI/ML, and cybersecurity frameworks.</div>
-        <a class="citadel-card-link" href="https://citadelcloudmanagement.com" target="_blank">citadelcloudmanagement.com ↗</a>
-      </div>
-      <div class="citadel-card">
-        <div class="citadel-card-icon">🛒</div>
-        <div class="citadel-card-title">Digital Marketplace</div>
-        <div class="citadel-card-desc">30,000+ SKU digital product catalog including cloud architecture templates, IaC modules, DevSecOps playbooks, AI agent prompt libraries, LUTs, presets, and overlays.</div>
-        <a class="citadel-card-link" href="https://citadelbuy.com" target="_blank">citadelbuy.com ↗</a>
-      </div>
-      <div class="citadel-card">
-        <div class="citadel-card-icon">🌍</div>
-        <div class="citadel-card-title">Africa Cloud Mission</div>
-        <div class="citadel-card-desc">Empowering African professionals with enterprise cloud skills, closing the digital divide and building a pipeline of world-class cloud architects across the continent.</div>
-        <a class="citadel-card-link" href="https://citadelcloudmanagement.com" target="_blank">Learn More ↗</a>
-      </div>
-      <div class="citadel-card">
-        <div class="citadel-card-icon">🤖</div>
-        <div class="citadel-card-title">AI Agent Training</div>
-        <div class="citadel-card-desc">Specialized curriculum covering all 8 AI agent specialization domains — from conversational assistants to autonomous infrastructure agents — across AWS, Azure, and GCP.</div>
-        <a class="citadel-card-link" href="https://citadelcloudmanagement.com" target="_blank">Explore Courses ↗</a>
-      </div>
-      <div class="citadel-card">
-        <div class="citadel-card-icon">📐</div>
-        <div class="citadel-card-title">Architecture Blueprints</div>
-        <div class="citadel-card-desc">Production-ready cloud architecture blueprints, Software Factory patterns, multi-cloud DevSecOps pipelines, and Zero Trust framework templates for enterprise teams.</div>
-        <a class="citadel-card-link" href="https://citadelbuy.com" target="_blank">Browse Templates ↗</a>
-      </div>
-      <div class="citadel-card">
-        <div class="citadel-card-icon">🔐</div>
-        <div class="citadel-card-title">Security &amp; Compliance</div>
-        <div class="citadel-card-desc">Deep-dive training on FedRAMP, CMMC, HIPAA, HITRUST, SOC 2, PCI DSS, and NIST 800-53 — taught by a practitioner with active U.S. Secret Clearance and 11+ years in the field.</div>
-        <a class="citadel-card-link" href="https://citadelcloudmanagement.com" target="_blank">View Curriculum ↗</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════ CLOUD REFERENCES ═══════════════════ -->
-  <div class="section-label">Cloud Resource Reference Links</div>
-  <div class="refs-grid">
-
-    <div class="ref-group">
-      <div class="ref-cloud" style="color:#FF9900"><span>☁</span> Amazon Web Services</div>
-      <a class="ref-link" href="https://aws.amazon.com/bedrock/" target="_blank">Amazon Bedrock — Foundation Models & Agents</a>
-      <a class="ref-link" href="https://aws.amazon.com/bedrock/agents/" target="_blank">Bedrock Agents — Autonomous Task Execution</a>
-      <a class="ref-link" href="https://aws.amazon.com/q/business/" target="_blank">Amazon Q Business — Enterprise AI Assistant</a>
-      <a class="ref-link" href="https://aws.amazon.com/q/developer/" target="_blank">Amazon Q Developer — AI Coding Assistant</a>
-      <a class="ref-link" href="https://aws.amazon.com/eks/" target="_blank">Amazon EKS — Managed Kubernetes</a>
-      <a class="ref-link" href="https://aws.amazon.com/opensearch-service/" target="_blank">OpenSearch — Vector Search & RAG</a>
-      <a class="ref-link" href="https://aws.amazon.com/guardduty/" target="_blank">GuardDuty — AI-Powered Threat Detection</a>
-      <a class="ref-link" href="https://aws.amazon.com/security-hub/" target="_blank">Security Hub — Compliance Aggregation</a>
-      <a class="ref-link" href="https://aws.amazon.com/healthlake/" target="_blank">HealthLake — Healthcare AI Platform</a>
-      <a class="ref-link" href="https://aws.amazon.com/step-functions/" target="_blank">Step Functions — LLM Workflow Orchestration</a>
-      <a class="ref-link" href="https://aws.amazon.com/aws-cost-management/aws-cost-explorer/" target="_blank">Cost Explorer — FinOps Intelligence</a>
-      <a class="ref-link" href="https://aws.amazon.com/personalize/" target="_blank">Amazon Personalize — Recommendation AI</a>
-    </div>
-
-    <div class="ref-group">
-      <div class="ref-cloud" style="color:#0078D4"><span>🔷</span> Microsoft Azure</div>
-      <a class="ref-link" href="https://azure.microsoft.com/en-us/products/ai-services/openai-service" target="_blank">Azure OpenAI Service — GPT-4, RAG, Assistants</a>
-      <a class="ref-link" href="https://azure.microsoft.com/en-us/products/ai-services/ai-agent-service" target="_blank">Azure AI Agent Service — Autonomous Agents</a>
-      <a class="ref-link" href="https://azure.microsoft.com/en-us/products/kubernetes-service" target="_blank">Azure Kubernetes Service (AKS)</a>
-      <a class="ref-link" href="https://azure.microsoft.com/en-us/products/microsoft-sentinel" target="_blank">Microsoft Sentinel — AI SIEM/SOAR</a>
-      <a class="ref-link" href="https://azure.microsoft.com/en-us/products/defender-for-cloud" target="_blank">Defender for Cloud — Security Posture</a>
-      <a class="ref-link" href="https://azure.microsoft.com/en-us/products/entra/id" target="_blank">Entra ID — Zero Trust IAM</a>
-      <a class="ref-link" href="https://azure.microsoft.com/en-us/products/microsoft-fabric" target="_blank">Microsoft Fabric — Unified Analytics AI</a>
-      <a class="ref-link" href="https://powerbi.microsoft.com/en-us/copilot-and-ai/" target="_blank">Power BI Copilot — BI Intelligence</a>
-      <a class="ref-link" href="https://copilot.microsoft.com/" target="_blank">Microsoft Copilot (M365 & Azure)</a>
-      <a class="ref-link" href="https://azure.microsoft.com/en-us/products/logic-apps" target="_blank">Logic Apps & Durable Functions Orchestrators</a>
-      <a class="ref-link" href="https://azure.microsoft.com/en-us/products/azure-automanage" target="_blank">Azure Automanage — AI Ops</a>
-      <a class="ref-link" href="https://dynamics.microsoft.com/en-us/copilot/" target="_blank">Dynamics 365 Copilot — Sales & Supply Chain</a>
-    </div>
-
-    <div class="ref-group">
-      <div class="ref-cloud" style="color:#4285F4"><span>💠</span> Google Cloud Platform</div>
-      <a class="ref-link" href="https://cloud.google.com/vertex-ai" target="_blank">Vertex AI — Model Platform & Agent Builder</a>
-      <a class="ref-link" href="https://cloud.google.com/vertex-ai/docs/extensions/overview" target="_blank">Vertex AI Extensions — Agent Capabilities</a>
-      <a class="ref-link" href="https://cloud.google.com/gemini" target="_blank">Gemini for Google Cloud — LLM APIs</a>
-      <a class="ref-link" href="https://cloud.google.com/gemini/docs/codeassist/overview" target="_blank">Gemini Code Assist — Developer AI</a>
-      <a class="ref-link" href="https://cloud.google.com/kubernetes-engine" target="_blank">GKE — Google Kubernetes Engine + AutoOps</a>
-      <a class="ref-link" href="https://cloud.google.com/bigquery" target="_blank">BigQuery — Analytics + Gemini NLQ</a>
-      <a class="ref-link" href="https://cloud.google.com/looker" target="_blank">Looker AI Assistant — BI Agents</a>
-      <a class="ref-link" href="https://cloud.google.com/chronicle" target="_blank">Chronicle — AI Security Investigation</a>
-      <a class="ref-link" href="https://cloud.google.com/security-command-center" target="_blank">Security Command Center — GCP SCC</a>
-      <a class="ref-link" href="https://cloud.google.com/dialogflow" target="_blank">Dialogflow — Conversational AI</a>
-      <a class="ref-link" href="https://cloud.google.com/vertex-ai/docs/search-and-conversation" target="_blank">Vertex AI Search & Conversation</a>
-      <a class="ref-link" href="https://cloud.google.com/solutions/healthcare-life-sciences" target="_blank">Healthcare NLP — Clinical AI Pipelines</a>
-    </div>
-
-  </div>
-
+<div class="intro-block">As AI moves from experimentation into production, the ability to design, deploy, and govern intelligent agents at enterprise scale is becoming a defining capability. This document organizes agent specializations into eight mutually exclusive domains, a canonical software factory architecture, and seven hands-on implementation patterns &#8212; spanning conversational assistants through autonomous infrastructure across AWS, Azure, and GCP.</div>
+
+<!-- S1: EIGHT SPECIALIZATION DOMAINS -->
+<div class="section-label">Section 1 &#8212; Eight Specialization Domains</div>
+<div class="dg">
+<div class="dc"><span class="dn">01</span><span class="di">&#128172;</span><div class="dt">Conversational &amp; Copilot Assistants</div><div class="dm">Enterprise knowledge assistants and workflow copilots that understand organizational context.</div><div class="dl">Core Capabilities</div><ul class="du"><li>Multi-turn dialogue with conversation memory</li><li>Enterprise knowledge base retrieval</li><li>Workflow copilot actions (approve, route, summarize)</li><li>SSO-integrated access control</li></ul><div class="dl">Success Metrics</div><ul class="du"><li>Ticket deflection &#8805; 40%</li><li>Employee time saved per week</li></ul><div class="tl"><a class="tag" href="https://aws.amazon.com/q/business/" target="_blank">Amazon Q Business</a><a class="tag" href="https://copilot.microsoft.com/" target="_blank">Microsoft Copilot</a><a class="tag" href="https://cloud.google.com/dialogflow" target="_blank">Dialogflow CX</a></div></div>
+<div class="dc"><span class="dn">02</span><span class="di">&#129302;</span><div class="dt">Autonomous Task Agents</div><div class="dm">Multi-step task execution with LLM-powered planning, tool calling, and event-driven orchestration.</div><div class="dl">Core Capabilities</div><ul class="du"><li>Multi-step planning with state management</li><li>Tool calling and API orchestration</li><li>Event-driven triggers and error recovery</li><li>Human-in-the-loop approval gates</li></ul><div class="dl">Success Metrics</div><ul class="du"><li>Task completion &#8805; 85%</li><li>MTTR reduction</li></ul><div class="tl"><a class="tag" href="https://aws.amazon.com/bedrock/agents/" target="_blank">Bedrock Agents</a><a class="tag" href="https://azure.microsoft.com/en-us/products/ai-services/ai-agent-service" target="_blank">Azure AI Agent Service</a><a class="tag" href="https://cloud.google.com/vertex-ai/docs/extensions/overview" target="_blank">Vertex AI Agent Builder</a></div></div>
+<div class="dc"><span class="dn">03</span><span class="di">&#9881;&#65039;</span><div class="dt">Developer &amp; DevOps Agents</div><div class="dm">AI-powered coding, pipeline automation, and IaC drift detection with auto-remediation.</div><div class="dl">Core Capabilities</div><ul class="du"><li>Code generation, review, and refactoring</li><li>CI/CD pipeline optimization</li><li>IaC drift detection and auto-remediation</li><li>SAST/DAST security scanning</li></ul><div class="dl">Success Metrics</div><ul class="du"><li>Developer velocity &#8805; +30%</li><li>Deploy frequency increase</li></ul><div class="tl"><a class="tag" href="https://aws.amazon.com/q/developer/" target="_blank">Amazon Q Developer</a><a class="tag" href="https://github.com/features/copilot" target="_blank">GitHub Copilot</a><a class="tag" href="https://cloud.google.com/gemini/docs/codeassist/overview" target="_blank">Gemini Code Assist</a></div></div>
+<div class="dc"><span class="dn">04</span><span class="di">&#128202;</span><div class="dt">Data &amp; Analytics Agents</div><div class="dm">Natural language query interfaces across BI platforms with RAG-augmented analytics.</div><div class="dl">Core Capabilities</div><ul class="du"><li>Natural language to SQL</li><li>RAG-powered data search</li><li>Dashboard generation</li><li>Anomaly detection and prediction</li></ul><div class="dl">Success Metrics</div><ul class="du"><li>Self-service adoption &#8805; 60%</li><li>Query accuracy &#8805; 90%</li></ul><div class="tl"><a class="tag" href="https://aws.amazon.com/quicksight/" target="_blank">QuickSight Q</a><a class="tag" href="https://powerbi.microsoft.com/en-us/copilot-and-ai/" target="_blank">Power BI Copilot</a><a class="tag" href="https://cloud.google.com/bigquery" target="_blank">BigQuery + Gemini</a></div></div>
+<div class="dc"><span class="dn">05</span><span class="di">&#128737;&#65039;</span><div class="dt">Security &amp; Governance Agents</div><div class="dm">Automated threat triage, compliance validation, IAM analysis, and Zero Trust enforcement.</div><div class="dl">Core Capabilities</div><ul class="du"><li>MITRE ATT&amp;CK threat triage</li><li>FedRAMP, CMMC, HIPAA, SOC 2, NIST 800-53 validation</li><li>IAM least-privilege analysis</li><li>Incident response playbooks</li></ul><div class="dl">Success Metrics</div><ul class="du"><li>MTTD &#8804; 15 min</li><li>Audit pass &#8805; 95%</li></ul><div class="tl"><a class="tag" href="https://aws.amazon.com/guardduty/" target="_blank">GuardDuty + LLM</a><a class="tag" href="https://azure.microsoft.com/en-us/products/microsoft-sentinel" target="_blank">Sentinel Copilot</a><a class="tag" href="https://cloud.google.com/chronicle" target="_blank">Chronicle AI</a></div></div>
+<div class="dc"><span class="dn">06</span><span class="di">&#127973;</span><div class="dt">Industry-Specific Agents</div><div class="dm">Domain-aware agents for healthcare (FHIR/HL7), defense (ITAR), retail, and fintech.</div><div class="dl">Core Capabilities</div><ul class="du"><li>FHIR R4 clinical data processing</li><li>Ambient clinical documentation</li><li>Personalization and demand forecasting</li><li>Transaction risk scoring</li></ul><div class="dl">Success Metrics</div><ul class="du"><li>Clinical doc time &#8722;50%</li><li>Fraud precision &#8805; 92%</li></ul><div class="tl"><a class="tag" href="https://aws.amazon.com/healthlake/" target="_blank">HealthLake AI</a><a class="tag" href="https://dynamics.microsoft.com/en-us/copilot/" target="_blank">Dynamics 365 Copilot</a><a class="tag" href="https://cloud.google.com/solutions/healthcare-life-sciences" target="_blank">Vertex Healthcare NLP</a></div></div>
+<div class="dc"><span class="dn">07</span><span class="di">&#128295;</span><div class="dt">Infrastructure &amp; Orchestration Agents</div><div class="dm">Self-healing clusters, FinOps optimization, capacity forecasting, governance drift detection.</div><div class="dl">Core Capabilities</div><ul class="du"><li>Auto-healing EKS/AKS/GKE</li><li>FinOps anomaly detection</li><li>Predictive capacity planning</li><li>Multi-cloud drift remediation</li></ul><div class="dl">Success Metrics</div><ul class="du"><li>Cost reduction &#8805; 25%</li><li>Cluster MTTR &#8804; 5 min</li></ul><div class="tl"><a class="tag" href="https://aws.amazon.com/eventbridge/" target="_blank">EventBridge Ops</a><a class="tag" href="https://azure.microsoft.com/en-us/products/azure-automanage" target="_blank">Azure Automanage</a><a class="tag" href="https://cloud.google.com/kubernetes-engine" target="_blank">AutoOps GKE</a></div></div>
+<div class="dc"><span class="dn">08</span><span class="di">&#127760;</span><div class="dt">Cross-Cloud &amp; Agnostic Patterns</div><div class="dm">Provider-agnostic orchestration with multi-cloud failover and data sovereignty.</div><div class="dl">Core Capabilities</div><ul class="du"><li>Provider-agnostic agent orchestration</li><li>Active-active failover</li><li>Cross-cloud data governance</li><li>Unified observability</li></ul><div class="dl">Success Metrics</div><ul class="du"><li>Failover &#8804; 30 sec</li><li>Zero sovereignty violations</li></ul><div class="tl"><a class="tag" href="https://python.langchain.com/" target="_blank">LangChain</a><a class="tag" href="https://github.com/microsoft/autogen" target="_blank">AutoGen</a><a class="tag" href="https://www.crewai.com/" target="_blank">CrewAI</a></div></div>
+</div>
+
+<!-- S2: SOFTWARE FACTORY ARCHITECTURE -->
+<div class="section-label">Section 2 &#8212; Software Factory Architecture</div>
+<div class="arch-section">
+<div class="arch-title">AI-Powered Software Factory</div>
+<p class="arch-sub">Canonical architecture &#183; Strategic layers &#183; Delivery pipeline &#183; One authoritative reference</p>
+<div class="al">
+<div class="ac"><div class="act" style="color:#F5A623">&#9632; Business Layer</div><div class="acb">Strategy alignment, ROI modeling, stakeholder KPIs, compliance requirements</div></div>
+<div class="ac"><div class="act" style="color:#00C2FF">&#9632; AI Layer</div><div class="acb">LLM routing, prompt engineering, RAG pipelines, embedding models, guardrails</div></div>
+<div class="ac"><div class="act" style="color:#7C4DFF">&#9632; Data Layer</div><div class="acb">Vector stores, knowledge bases, feature stores, data pipelines, ETL</div></div>
+<div class="ac"><div class="act" style="color:#00E676">&#9632; Platform Layer</div><div class="acb">Kubernetes (EKS/AKS/GKE), serverless, containers, IaC</div></div>
+<div class="ac"><div class="act" style="color:#FF5252">&#9632; Security Layer</div><div class="acb">Zero Trust, IAM, secrets, encryption at rest/transit, audit logging</div></div>
+<div class="ac"><div class="act" style="color:#64B5F6">&#9632; Operations Layer</div><div class="acb">Observability, alerting, SLO tracking, chaos engineering, incident response</div></div>
+</div>
+<div class="pipeline"><span class="ps">Idea</span><span class="pa">&#8594;</span><span class="ps">Requirements</span><span class="pa">&#8594;</span><span class="ps">Design</span><span class="pa">&#8594;</span><span class="ps">Build</span><span class="pa">&#8594;</span><span class="ps">Test</span><span class="pa">&#8594;</span><span class="ps">Security</span><span class="pa">&#8594;</span><span class="ps">Deploy</span><span class="pa">&#8594;</span><span class="ps">Monitor</span><span class="pa">&#8594;</span><span class="ps">Optimize</span></div>
+<div class="al">
+<div class="ac"><div class="act" style="color:#00C2FF">Agent Framework</div><div class="acb">BaseAgent abstraction, config, input/output contracts, execution lifecycle</div></div>
+<div class="ac"><div class="act" style="color:#00C2FF">LLM Layer</div><div class="acb">Multi-provider routing (Bedrock, Azure OpenAI, Vertex), failover, token budgets</div></div>
+<div class="ac"><div class="act" style="color:#00C2FF">RAG Layer</div><div class="acb">Ingestion, chunking, embedding, vector search, re-ranking, citations</div></div>
+<div class="ac"><div class="act" style="color:#00C2FF">Orchestration</div><div class="acb">Multi-agent coordination, task distribution, shared memory, consensus</div></div>
+<div class="ac"><div class="act" style="color:#FF5252">Guardrails</div><div class="acb">PII detection, prompt injection defense, output validation, compliance</div></div>
+<div class="ac"><div class="act" style="color:#00E676">Deployment</div><div class="acb">Container packaging, canary/blue-green, rollback, multi-region</div></div>
+</div>
+</div>
+
+<!-- S3: HANDS-ON IMPLEMENTATION AGENTS -->
+<div class="section-label">Section 3 &#8212; Hands-On Implementation Agents</div>
+<div class="intro-block" style="border-left-color:var(--gold)">Seven concrete, buildable agent implementations. Each includes a pipeline, tool stack, and deployment pattern. They complement &#8212; but do not duplicate &#8212; the specialization domains above.</div>
+<div class="ig">
+<div class="ic"><span class="in">01</span><span class="ii">&#128300;</span><div class="it">AI Research Agent</div><div class="ip">Finds, summarizes, and compares research papers, blogs, and docs using RAG.</div><div class="il">Tool Stack</div><ul class="iu"><li>LangChain / LlamaIndex</li><li>FAISS / Pinecone</li><li>BeautifulSoup &#183; OpenAI API</li></ul><div class="il">Deployment</div><ul class="iu"><li>FastAPI + async task queue</li><li>Vector DB sidecar</li></ul><div class="ia"><div class="iat">Pipeline</div><span class="step">Query</span><span class="arr">&#8594;</span><span class="step">Planner</span><span class="arr">&#8594;</span><span class="step">Web/PDF</span><span class="arr">&#8594;</span><span class="step">Process</span><span class="arr">&#8594;</span><span class="step">Embed</span><span class="arr">&#8594;</span><span class="step">VectorDB</span><span class="arr">&#8594;</span><span class="step">RAG</span><span class="arr">&#8594;</span><span class="step">LLM</span><span class="arr">&#8594;</span><span class="step">Report</span></div></div>
+<div class="ic"><span class="in">02</span><span class="ii">&#11088;</span><div class="it">Recommendation Agent</div><div class="ip">Suggests products, videos, or courses via hybrid collaborative + content filtering.</div><div class="il">Tool Stack</div><ul class="iu"><li>Scikit-learn &#183; TensorFlow / PyTorch</li><li>PostgreSQL &#183; Redis</li></ul><div class="il">Deployment</div><ul class="iu"><li>Feature store microservice</li><li>Real-time scoring + batch retrain</li></ul><div class="ia"><div class="iat">Pipeline</div><span class="step">Activity</span><span class="arr">&#8594;</span><span class="step">Collect</span><span class="arr">&#8594;</span><span class="step">Profile</span><span class="arr">&#8594;</span><span class="step">Features</span><span class="arr">&#8594;</span><span class="step">RecEngine</span><span class="arr">&#8594;</span><span class="step">VectorDB</span><span class="arr">&#8594;</span><span class="step">LLM</span><span class="arr">&#8594;</span><span class="step">API</span></div></div>
+<div class="ic"><span class="in">03</span><span class="ii">&#128172;</span><div class="it">AI Customer Support Agent</div><div class="ip">Handles FAQs, tickets, and queries across Website, WhatsApp, Email, Slack.</div><div class="il">Tool Stack</div><ul class="iu"><li>LangGraph &#183; FastAPI</li><li>WhatsApp / Telegram APIs</li></ul><div class="il">Deployment</div><ul class="iu"><li>Channel adapter + intent router</li><li>CRM webhook integration</li></ul><div class="ia"><div class="iat">Pipeline</div><span class="step">Query</span><span class="arr">&#8594;</span><span class="step">Channel</span><span class="arr">&#8594;</span><span class="step">Intent</span><span class="arr">&#8594;</span><span class="step">KB</span><span class="arr">&#8594;</span><span class="step">LLM</span><span class="arr">&#8594;</span><span class="step">Tools</span><span class="arr">&#8594;</span><span class="step">Response</span><span class="arr">&#8594;</span><span class="step">Escalate</span><span class="arr">&#8594;</span><span class="step">Memory</span></div></div>
+<div class="ic"><span class="in">04</span><span class="ii">&#9000;</span><div class="it">Coding Agent</div><div class="ip">Writes, debugs, reviews, and explains code with sandbox execution and testing.</div><div class="il">Tool Stack</div><ul class="iu"><li>GitHub API &#183; Docker</li><li>OpenAI / Claude APIs</li></ul><div class="il">Deployment</div><ul class="iu"><li>Sandboxed execution</li><li>Git commit/PR automation</li></ul><div class="ia"><div class="iat">Pipeline</div><span class="step">Prompt</span><span class="arr">&#8594;</span><span class="step">Plan</span><span class="arr">&#8594;</span><span class="step">Context</span><span class="arr">&#8594;</span><span class="step">Generate</span><span class="arr">&#8594;</span><span class="step">Test</span><span class="arr">&#8594;</span><span class="step">Sandbox</span><span class="arr">&#8594;</span><span class="step">Fix</span><span class="arr">&#8594;</span><span class="step">Git</span></div></div>
+<div class="ic"><span class="in">05</span><span class="ii">&#127760;</span><div class="it">Autonomous Browser Agent</div><div class="ip">Forms, bookings, data collection, price comparison &#8212; automated on any website.</div><div class="il">Tool Stack</div><ul class="iu"><li>Playwright &#183; Selenium</li><li>Browser-use &#183; Vision models</li></ul><div class="il">Deployment</div><ul class="iu"><li>Headless browser pool</li><li>Observation-action loop</li></ul><div class="ia"><div class="iat">Pipeline</div><span class="step">Goal</span><span class="arr">&#8594;</span><span class="step">Plan</span><span class="arr">&#8594;</span><span class="step">Browser</span><span class="arr">&#8594;</span><span class="step">DOM+Vision</span><span class="arr">&#8594;</span><span class="step">Decide</span><span class="arr">&#8594;</span><span class="step">Act</span><span class="arr">&#8594;</span><span class="step">Observe</span><span class="arr">&#8594;</span><span class="step">Done</span></div></div>
+<div class="ic"><span class="in">06</span><span class="ii">&#129504;</span><div class="it">Multi-Agent Research Team</div><div class="ip">Researcher, Writer, Critic, Planner, Reviewer collaborate with shared memory.</div><div class="il">Tool Stack</div><ul class="iu"><li>CrewAI &#183; AutoGen &#183; LangGraph</li></ul><div class="il">Deployment</div><ul class="iu"><li>Supervisor + worker pool</li><li>Shared knowledge base</li></ul><div class="ia"><div class="iat">Pipeline</div><span class="step">Goal</span><span class="arr">&#8594;</span><span class="step">Supervisor</span><span class="arr">&#8594;</span><span class="step">Distribute</span><span class="arr">&#8594;</span><span class="step">[Web&#183;Data&#183;Code&#183;Write]</span><span class="arr">&#8594;</span><span class="step">Memory</span><span class="arr">&#8594;</span><span class="step">Debate</span><span class="arr">&#8594;</span><span class="step">Synthesize</span><span class="arr">&#8594;</span><span class="step">Report</span></div></div>
+<div class="ic"><span class="in">07</span><span class="ii">&#128202;</span><div class="it">AI Data Analyst Agent</div><div class="ip">Analyzes CSV/Excel, generates SQL, visualizations, and &#8220;chat with your data.&#8221;</div><div class="il">Tool Stack</div><ul class="iu"><li>Pandas &#183; Matplotlib</li><li>Jupyter &#183; Power BI</li></ul><div class="il">Deployment</div><ul class="iu"><li>Notebook-style streaming API</li><li>Dashboard widget integration</li></ul><div class="ia"><div class="iat">Pipeline</div><span class="step">Query</span><span class="arr">&#8594;</span><span class="step">Ingest</span><span class="arr">&#8594;</span><span class="step">Clean</span><span class="arr">&#8594;</span><span class="step">SQL</span><span class="arr">&#8594;</span><span class="step">LLM</span><span class="arr">&#8594;</span><span class="step">Visualize</span><span class="arr">&#8594;</span><span class="step">Predict</span><span class="arr">&#8594;</span><span class="step">Report</span><span class="arr">&#8594;</span><span class="step">Dashboard</span></div></div>
+</div>
+
+<!-- S4: ABOUT THE PLATFORM -->
+<div class="section-label">Section 4 &#8212; About the Author's Platform</div>
+<div class="cb">
+<div class="cb-row"><div class="cb-icon">&#127984;</div><div><div class="cb-title">Citadel Cloud Management</div><div class="cb-tag">Africa's Premier Cloud Education &amp; Digital Skills Platform</div></div><a class="cb-btn" href="https://citadelcloudmanagement.com" target="_blank">Visit Platform &#8599;</a></div>
+<div class="cb-desc">Founded by Kehinde Ogunlowo, Citadel bridges enterprise-grade cloud expertise and next-generation African tech talent. Training, certifications, and digital resources across AWS, Azure, GCP, DevSecOps, AI/ML, and cybersecurity &#8212; with implementations from Cigna (15M+ members), Lockheed Martin, and Ceretax (500K+ txn/month).</div>
+<div class="cb-grid">
+<div class="cc"><div class="cc-i">&#127891;</div><div class="cc-t">Cloud LMS</div><div class="cc-d">Structured learning paths: multi-cloud, DevSecOps, AI/ML, compliance.</div><a class="cc-l" href="https://citadelcloudmanagement.com" target="_blank">citadelcloudmanagement.com &#8599;</a></div>
+<div class="cc"><div class="cc-i">&#128722;</div><div class="cc-t">Digital Marketplace</div><div class="cc-d">30,000+ products: IaC modules, templates, prompt libraries, playbooks.</div><a class="cc-l" href="https://citadelbuy.com" target="_blank">citadelbuy.com &#8599;</a></div>
+<div class="cc"><div class="cc-i">&#129302;</div><div class="cc-t">AI Agent Training</div><div class="cc-d">All 8 agent domains with hands-on labs across AWS, Azure, GCP.</div><a class="cc-l" href="https://citadelcloudmanagement.com" target="_blank">Explore Courses &#8599;</a></div>
+<div class="cc"><div class="cc-i">&#128208;</div><div class="cc-t">Architecture Blueprints</div><div class="cc-d">Software Factory patterns, pipelines, Zero Trust templates.</div><a class="cc-l" href="https://citadelbuy.com" target="_blank">Browse Templates &#8599;</a></div>
+<div class="cc"><div class="cc-i">&#128274;</div><div class="cc-t">Security &amp; Compliance</div><div class="cc-d">FedRAMP, CMMC, HIPAA, SOC 2, NIST 800-53 by active-clearance practitioner.</div><a class="cc-l" href="https://citadelcloudmanagement.com" target="_blank">View Curriculum &#8599;</a></div>
+<div class="cc"><div class="cc-i">&#127757;</div><div class="cc-t">Africa Cloud Mission</div><div class="cc-d">Building world-class cloud architects across the continent.</div><a class="cc-l" href="https://citadelcloudmanagement.com" target="_blank">Learn More &#8599;</a></div>
+</div>
+</div>
+
+<!-- S5: CLOUD RESOURCE REFERENCE LINKS -->
+<div class="section-label">Section 5 &#8212; Cloud Resource Reference Links</div>
+<div class="rg3">
+<div class="rg"><div class="rc" style="color:#FF9900"><span>&#9729;</span> AWS</div><a class="rl" href="https://aws.amazon.com/bedrock/" target="_blank">Bedrock &#8212; Foundation Models</a><a class="rl" href="https://aws.amazon.com/q/business/" target="_blank">Amazon Q Business</a><a class="rl" href="https://aws.amazon.com/q/developer/" target="_blank">Amazon Q Developer</a><a class="rl" href="https://aws.amazon.com/eks/" target="_blank">EKS &#8212; Kubernetes</a><a class="rl" href="https://aws.amazon.com/opensearch-service/" target="_blank">OpenSearch &#8212; Vector Search</a><a class="rl" href="https://aws.amazon.com/guardduty/" target="_blank">GuardDuty</a><a class="rl" href="https://aws.amazon.com/security-hub/" target="_blank">Security Hub</a><a class="rl" href="https://aws.amazon.com/healthlake/" target="_blank">HealthLake</a><a class="rl" href="https://aws.amazon.com/step-functions/" target="_blank">Step Functions</a><a class="rl" href="https://aws.amazon.com/aws-cost-management/aws-cost-explorer/" target="_blank">Cost Explorer</a></div>
+<div class="rg"><div class="rc" style="color:#0078D4"><span>&#128311;</span> Azure</div><a class="rl" href="https://azure.microsoft.com/en-us/products/ai-services/openai-service" target="_blank">Azure OpenAI</a><a class="rl" href="https://azure.microsoft.com/en-us/products/ai-services/ai-agent-service" target="_blank">AI Agent Service</a><a class="rl" href="https://azure.microsoft.com/en-us/products/kubernetes-service" target="_blank">AKS</a><a class="rl" href="https://azure.microsoft.com/en-us/products/microsoft-sentinel" target="_blank">Sentinel</a><a class="rl" href="https://azure.microsoft.com/en-us/products/defender-for-cloud" target="_blank">Defender</a><a class="rl" href="https://azure.microsoft.com/en-us/products/entra/id" target="_blank">Entra ID</a><a class="rl" href="https://azure.microsoft.com/en-us/products/microsoft-fabric" target="_blank">Fabric</a><a class="rl" href="https://powerbi.microsoft.com/en-us/copilot-and-ai/" target="_blank">Power BI Copilot</a><a class="rl" href="https://copilot.microsoft.com/" target="_blank">Microsoft Copilot</a><a class="rl" href="https://dynamics.microsoft.com/en-us/copilot/" target="_blank">Dynamics 365</a></div>
+<div class="rg"><div class="rc" style="color:#4285F4"><span>&#128160;</span> GCP</div><a class="rl" href="https://cloud.google.com/vertex-ai" target="_blank">Vertex AI</a><a class="rl" href="https://cloud.google.com/gemini" target="_blank">Gemini</a><a class="rl" href="https://cloud.google.com/gemini/docs/codeassist/overview" target="_blank">Code Assist</a><a class="rl" href="https://cloud.google.com/kubernetes-engine" target="_blank">GKE</a><a class="rl" href="https://cloud.google.com/bigquery" target="_blank">BigQuery</a><a class="rl" href="https://cloud.google.com/looker" target="_blank">Looker AI</a><a class="rl" href="https://cloud.google.com/chronicle" target="_blank">Chronicle</a><a class="rl" href="https://cloud.google.com/security-command-center" target="_blank">SCC</a><a class="rl" href="https://cloud.google.com/dialogflow" target="_blank">Dialogflow</a><a class="rl" href="https://cloud.google.com/solutions/healthcare-life-sciences" target="_blank">Healthcare NLP</a></div>
+</div>
+<div class="rg4">
+<div class="rg"><div class="rc" style="color:#00C2FF"><span>&#9881;</span> Infrastructure</div><a class="rl" href="https://www.terraform.io/" target="_blank">Terraform</a><a class="rl" href="https://kubernetes.io/" target="_blank">Kubernetes</a><a class="rl" href="https://helm.sh/" target="_blank">Helm</a></div>
+<div class="rg"><div class="rc" style="color:#00E676"><span>&#129302;</span> AI Frameworks</div><a class="rl" href="https://python.langchain.com/" target="_blank">LangChain</a><a class="rl" href="https://www.crewai.com/" target="_blank">CrewAI</a><a class="rl" href="https://github.com/microsoft/autogen" target="_blank">AutoGen</a><a class="rl" href="https://www.llamaindex.ai/" target="_blank">LlamaIndex</a></div>
+<div class="rg"><div class="rc" style="color:#7C4DFF"><span>&#128161;</span> LLM Providers</div><a class="rl" href="https://platform.openai.com/" target="_blank">OpenAI</a><a class="rl" href="https://www.anthropic.com/" target="_blank">Anthropic</a><a class="rl" href="https://ai.google.dev/" target="_blank">Google AI</a></div>
+<div class="rg"><div class="rc" style="color:#F5A623"><span>&#128204;</span> Vector &amp; RAG</div><a class="rl" href="https://www.pinecone.io/" target="_blank">Pinecone</a><a class="rl" href="https://github.com/facebookresearch/faiss" target="_blank">FAISS</a><a class="rl" href="https://weaviate.io/" target="_blank">Weaviate</a></div>
+</div>
 </main>
 
-<!-- ═══════════════════ FOOTER ═══════════════════ -->
-<footer class="article-footer">
-  <div class="cta-block">
-    <h3>Let's Connect</h3>
-    <p>If you are building or scaling an AI agent platform and need an architect who can design across the full stack — infrastructure, security, governance, and production deployment — let's connect. Open to senior remote opportunities in AI infrastructure, cloud security architecture, and DevSecOps.</p>
-    <a class="cta-link" href="https://www.linkedin.com/in/kehinde-ogunlowo" target="_blank">Connect on LinkedIn ↗</a>
-  </div>
-  <div class="expertise-list">
-    <strong>Core Expertise</strong>
-    AWS · Azure · GCP<br>
-    EKS · AKS · GKE<br>
-    Terraform · DevSecOps<br>
-    Zero Trust · FedRAMP<br>
-    RAG Systems · MLOps<br>
-    FHIR · HL7 · DICOM<br>
-    <br>
-    <span style="color:#00C2FF">www.linkedin.com/in/kehinde-ogunlowo</span>
-  </div>
+<footer class="footer">
+<div class="cta"><h3>Let's Connect</h3><p>Building or scaling an AI agent platform? I architect across the full stack &#8212; infrastructure, security, governance, and production deployment.</p><a class="cta-link" href="https://www.linkedin.com/in/kehinde-ogunlowo" target="_blank">Connect on LinkedIn &#8599;</a></div>
+<div class="exp"><strong>Core Expertise</strong>AWS &#183; Azure &#183; GCP<br>EKS &#183; AKS &#183; GKE<br>Terraform &#183; DevSecOps<br>Zero Trust &#183; FedRAMP<br>RAG &#183; MLOps<br>FHIR &#183; HL7 &#183; DICOM</div>
 </footer>
 
 </body>
