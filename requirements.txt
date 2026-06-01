@@ -1,0 +1,18 @@
+# Citadel AI Agent Specializations
+openai>=1.30.0
+boto3>=1.34.0
+google-cloud-aiplatform>=1.50.0
+faiss-cpu>=1.8.0
+pinecone-client>=3.0.0
+langchain>=0.2.0
+beautifulsoup4>=4.12.0
+playwright>=1.44.0
+pandas>=2.2.0
+scikit-learn>=1.5.0
+matplotlib>=3.9.0
+fastapi>=0.111.0
+uvicorn>=0.30.0
+crewai>=0.30.0
+langgraph>=0.1.0
+pydantic>=2.7.0
+httpx>=0.27.0

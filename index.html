@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>AI Agent Specializations | Kehinde Ogunlowo</title>
+<title>AI Agent Specializations | Citadel Cloud Management</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
 <style>
   :root {
@@ -344,7 +344,164 @@
     letter-spacing: 0.5px; transition: color 0.15s;
   }
   .citadel-card-link:hover { color: #FFD54F; }
+
+  /* --- IMPLEMENTATION AGENTS --- */
+  .impl-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+    gap: 2px;
+    margin-bottom: 80px;
+    border: 1px solid var(--border);
+  }
+  .impl-card {
+    background: var(--card);
+    padding: 32px;
+    border: 1px solid transparent;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .impl-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: transparent;
+    transition: background 0.2s;
+  }
+  .impl-card:hover { background: #162040; border-color: var(--border); }
+  .impl-card:hover::before { background: linear-gradient(90deg, var(--gold), var(--accent)); }
+  .impl-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 48px; font-weight: 800;
+    color: rgba(245,166,35,0.1);
+    position: absolute; top: 16px; right: 24px;
+    line-height: 1;
+  }
+  .impl-icon { font-size: 28px; margin-bottom: 12px; display: block; }
+  .impl-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px; font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .impl-subtitle {
+    font-size: 13px; color: var(--muted); margin-bottom: 16px;
+    line-height: 1.6; font-style: italic;
+  }
+  .impl-section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px; font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase; letter-spacing: 1.5px;
+    margin-bottom: 8px; margin-top: 16px;
+  }
+  .impl-list {
+    list-style: none; padding: 0; margin: 0 0 12px 0;
+  }
+  .impl-list li {
+    font-size: 12px; color: #BDC8E0; padding: 3px 0;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .impl-list li::before {
+    content: '\203A'; color: var(--accent); font-weight: 700;
+  }
+  .impl-arch {
+    background: #080F1E;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 14px 16px;
+    margin-top: 14px;
+    font-size: 11px;
+    line-height: 1.8;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .impl-arch-label {
+    font-size: 10px; font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase; letter-spacing: 1.5px;
+    margin-bottom: 6px;
+  }
+  .impl-arch .step { color: #BDC8E0; }
+  .impl-arch .arrow { color: var(--accent); margin: 0 2px; }
+
 </style>
+
+  /* ─── IMPLEMENTATION AGENTS ─── */
+  .impl-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+    gap: 2px;
+    margin-bottom: 80px;
+    border: 1px solid var(--border);
+  }
+  .impl-card {
+    background: var(--card);
+    padding: 32px;
+    border: 1px solid transparent;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .impl-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: transparent;
+    transition: background 0.2s;
+  }
+  .impl-card:hover { background: #162040; border-color: var(--border); }
+  .impl-card:hover::before { background: linear-gradient(90deg, var(--gold), var(--accent)); }
+  .impl-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 48px; font-weight: 800;
+    color: rgba(245,166,35,0.1);
+    position: absolute; top: 16px; right: 24px;
+    line-height: 1;
+  }
+  .impl-icon { font-size: 28px; margin-bottom: 12px; display: block; }
+  .impl-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px; font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .impl-subtitle {
+    font-size: 13px; color: var(--muted); margin-bottom: 16px;
+    line-height: 1.6; font-style: italic;
+  }
+  .impl-section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px; font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase; letter-spacing: 1.5px;
+    margin-bottom: 8px; margin-top: 16px;
+  }
+  .impl-list {
+    list-style: none; padding: 0; margin: 0 0 12px 0;
+  }
+  .impl-list li {
+    font-size: 12px; color: #BDC8E0; padding: 3px 0;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .impl-list li::before {
+    content: '›'; color: var(--accent); font-weight: 700;
+  }
+  .impl-arch {
+    background: #080F1E;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 14px 16px;
+    margin-top: 14px;
+    font-size: 11px;
+    line-height: 1.8;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .impl-arch-label {
+    font-size: 10px; font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase; letter-spacing: 1.5px;
+    margin-bottom: 6px;
+  }
+  .impl-arch .step { color: #BDC8E0; }
+  .impl-arch .arrow { color: var(--accent); margin: 0 2px; }
 </head>
 <body>
 
@@ -944,6 +1101,240 @@
       </div>
     </div>
   </div>
+
+
+  <!-- HANDS-ON IMPLEMENTATION AGENTS -->
+  <div class="section-label">Hands-On Implementation Agents</div>
+
+  <div class="intro-block" style="border-left-color: var(--gold);">
+    Beyond enterprise cloud platform specializations, these are the concrete, buildable agent architectures that form the foundation of modern AI engineering. Each agent below includes a full pipeline architecture, required skills, and recommended tooling &#8212; designed for production deployment.
+  </div>
+
+  <div class="impl-grid">
+
+    <!-- Agent 1: AI Research Agent -->
+    <div class="impl-card">
+      <span class="impl-number">01</span>
+      <span class="impl-icon">&#128300;</span>
+      <div class="impl-title">AI Research Agent</div>
+      <div class="impl-subtitle">Finds, summarizes, and compares research papers, blogs, and documentation.</div>
+      <div class="impl-section-title">Skills</div>
+      <ul class="impl-list">
+        <li>RAG (Retrieval-Augmented Generation)</li>
+        <li>Vector databases</li>
+        <li>Web scraping</li>
+        <li>Multi-step reasoning</li>
+      </ul>
+      <div class="impl-section-title">Tools</div>
+      <ul class="impl-list">
+        <li>Python &#183; LangChain / LlamaIndex</li>
+        <li>FAISS / Pinecone</li>
+        <li>OpenAI API &#183; BeautifulSoup</li>
+      </ul>
+      <div class="impl-arch">
+        <div class="impl-arch-label">Architecture</div>
+        <span class="step">User Query</span> <span class="arrow">&#8594;</span>
+        <span class="step">Task Planner Agent</span> <span class="arrow">&#8594;</span>
+        <span class="step">Web Search / PDF Retrieval</span> <span class="arrow">&#8594;</span>
+        <span class="step">Document Processing</span> <span class="arrow">&#8594;</span>
+        <span class="step">Embedding Model</span> <span class="arrow">&#8594;</span>
+        <span class="step">Vector Database</span> <span class="arrow">&#8594;</span>
+        <span class="step">Retriever (RAG)</span> <span class="arrow">&#8594;</span>
+        <span class="step">LLM Reasoning Engine</span> <span class="arrow">&#8594;</span>
+        <span class="step">Final Research Report</span>
+      </div>
+    </div>
+
+    <!-- Agent 2: Recommendation Agent -->
+    <div class="impl-card">
+      <span class="impl-number">02</span>
+      <span class="impl-icon">&#11088;</span>
+      <div class="impl-title">Recommendation Agent</div>
+      <div class="impl-subtitle">Suggests products, videos, courses, or content based on user behavior.</div>
+      <div class="impl-section-title">Skills</div>
+      <ul class="impl-list">
+        <li>Embeddings &#183; Personalization</li>
+        <li>User profiling</li>
+        <li>Ranking systems</li>
+      </ul>
+      <div class="impl-section-title">Tools</div>
+      <ul class="impl-list">
+        <li>Scikit-learn &#183; TensorFlow / PyTorch</li>
+        <li>PostgreSQL &#183; Redis</li>
+      </ul>
+      <div class="impl-arch">
+        <div class="impl-arch-label">Architecture</div>
+        <span class="step">User Activity</span> <span class="arrow">&#8594;</span>
+        <span class="step">Data Collection</span> <span class="arrow">&#8594;</span>
+        <span class="step">User Profile Builder</span> <span class="arrow">&#8594;</span>
+        <span class="step">Feature Engineering</span> <span class="arrow">&#8594;</span>
+        <span class="step">Recommendation Engine</span> <span class="arrow">&#8594;</span>
+        <span class="step">Vector DB / Embeddings</span> <span class="arrow">&#8594;</span>
+        <span class="step">LLM Personalization</span> <span class="arrow">&#8594;</span>
+        <span class="step">Recommendation API</span> <span class="arrow">&#8594;</span>
+        <span class="step">Frontend App</span>
+      </div>
+    </div>
+
+    <!-- Agent 3: AI Customer Support Agent -->
+    <div class="impl-card">
+      <span class="impl-number">03</span>
+      <span class="impl-icon">&#128172;</span>
+      <div class="impl-title">AI Customer Support Agent</div>
+      <div class="impl-subtitle">Handles FAQs, customer tickets, and business queries automatically.</div>
+      <div class="impl-section-title">Skills</div>
+      <ul class="impl-list">
+        <li>Conversational AI &#183; Memory handling</li>
+        <li>Tool calling &#183; Workflow automation</li>
+      </ul>
+      <div class="impl-section-title">Tools</div>
+      <ul class="impl-list">
+        <li>OpenAI API &#183; LangGraph &#183; FastAPI</li>
+        <li>WhatsApp API &#183; Telegram API</li>
+      </ul>
+      <div class="impl-section-title">Advanced Features</div>
+      <ul class="impl-list">
+        <li>Voice support &#183; CRM integration</li>
+        <li>Multilingual responses</li>
+      </ul>
+      <div class="impl-arch">
+        <div class="impl-arch-label">Architecture</div>
+        <span class="step">Customer Query</span> <span class="arrow">&#8594;</span>
+        <span class="step">Channel Integrations</span> <span class="arrow">&#8594;</span>
+        <span class="step">Intent Detection</span> <span class="arrow">&#8594;</span>
+        <span class="step">Knowledge Retrieval (RAG)</span> <span class="arrow">&#8594;</span>
+        <span class="step">LLM Reasoning</span> <span class="arrow">&#8594;</span>
+        <span class="step">Action / Tool Calling</span> <span class="arrow">&#8594;</span>
+        <span class="step">Response Generation</span> <span class="arrow">&#8594;</span>
+        <span class="step">Human Escalation</span> <span class="arrow">&#8594;</span>
+        <span class="step">Memory Storage</span>
+      </div>
+    </div>
+
+    <!-- Agent 4: Coding Agent -->
+    <div class="impl-card">
+      <span class="impl-number">04</span>
+      <span class="impl-icon">&#9000;</span>
+      <div class="impl-title">Coding Agent</div>
+      <div class="impl-subtitle">Writes, debugs, reviews, and explains code.</div>
+      <div class="impl-section-title">Skills</div>
+      <ul class="impl-list">
+        <li>Code generation &#183; AST parsing</li>
+        <li>Function calling &#183; Agentic workflows</li>
+      </ul>
+      <div class="impl-section-title">Tools</div>
+      <ul class="impl-list">
+        <li>GitHub API &#183; Docker</li>
+        <li>VS Code Extensions &#183; OpenAI / Claude APIs</li>
+      </ul>
+      <div class="impl-arch">
+        <div class="impl-arch-label">Architecture</div>
+        <span class="step">User Prompt</span> <span class="arrow">&#8594;</span>
+        <span class="step">Task Planning Agent</span> <span class="arrow">&#8594;</span>
+        <span class="step">Code Retrieval + Context</span> <span class="arrow">&#8594;</span>
+        <span class="step">LLM Reasoning Engine</span> <span class="arrow">&#8594;</span>
+        <span class="step">Code Generation</span> <span class="arrow">&#8594;</span>
+        <span class="step">Testing &amp; Validation</span> <span class="arrow">&#8594;</span>
+        <span class="step">Sandbox Execution</span> <span class="arrow">&#8594;</span>
+        <span class="step">Bug Detection</span> <span class="arrow">&#8594;</span>
+        <span class="step">Git Commit / PR</span>
+      </div>
+    </div>
+
+    <!-- Agent 5: Autonomous Browser Agent -->
+    <div class="impl-card">
+      <span class="impl-number">05</span>
+      <span class="impl-icon">&#127760;</span>
+      <div class="impl-title">Autonomous Browser Agent</div>
+      <div class="impl-subtitle">Performs tasks on websites automatically.</div>
+      <div class="impl-section-title">Skills</div>
+      <ul class="impl-list">
+        <li>Browser automation &#183; Computer vision</li>
+        <li>Planning agents &#183; Web interaction</li>
+      </ul>
+      <div class="impl-section-title">Tools</div>
+      <ul class="impl-list">
+        <li>Playwright &#183; Selenium</li>
+        <li>Browser-use &#183; Vision models</li>
+      </ul>
+      <div class="impl-arch">
+        <div class="impl-arch-label">Architecture</div>
+        <span class="step">User Goal</span> <span class="arrow">&#8594;</span>
+        <span class="step">Task Planning Agent</span> <span class="arrow">&#8594;</span>
+        <span class="step">Browser Controller</span> <span class="arrow">&#8594;</span>
+        <span class="step">Web Page Understanding (DOM + Vision)</span> <span class="arrow">&#8594;</span>
+        <span class="step">LLM Decision Engine</span> <span class="arrow">&#8594;</span>
+        <span class="step">Action Execution</span> <span class="arrow">&#8594;</span>
+        <span class="step">Observation &amp; Feedback Loop</span> <span class="arrow">&#8594;</span>
+        <span class="step">Task Completion</span>
+      </div>
+    </div>
+
+    <!-- Agent 6: Multi-Agent Research Team -->
+    <div class="impl-card">
+      <span class="impl-number">06</span>
+      <span class="impl-icon">&#129504;</span>
+      <div class="impl-title">Multi-Agent Research Team</div>
+      <div class="impl-subtitle">Multiple AI agents collaborate like a company team.</div>
+      <div class="impl-section-title">Skills</div>
+      <ul class="impl-list">
+        <li>Agent orchestration &#183; Task delegation</li>
+        <li>Long-term memory &#183; Multi-agent systems</li>
+      </ul>
+      <div class="impl-section-title">Tools</div>
+      <ul class="impl-list">
+        <li>CrewAI &#183; AutoGen &#183; LangGraph</li>
+      </ul>
+      <div class="impl-section-title">Sub-Agents</div>
+      <ul class="impl-list">
+        <li>Researcher &#183; Writer &#183; Critic</li>
+        <li>Planner &#183; Reviewer</li>
+      </ul>
+      <div class="impl-arch">
+        <div class="impl-arch-label">Architecture</div>
+        <span class="step">User Research Goal</span> <span class="arrow">&#8594;</span>
+        <span class="step">Supervisor Agent</span> <span class="arrow">&#8594;</span>
+        <span class="step">Task Distribution Layer</span> <span class="arrow">&#8594;</span>
+        <span class="step">[Web | Data | Coding | Writing] Agents</span> <span class="arrow">&#8594;</span>
+        <span class="step">Shared Memory / KB</span> <span class="arrow">&#8594;</span>
+        <span class="step">Reasoning &amp; Debate</span> <span class="arrow">&#8594;</span>
+        <span class="step">Report Synthesis</span> <span class="arrow">&#8594;</span>
+        <span class="step">Final Report</span>
+      </div>
+    </div>
+
+    <!-- Agent 7: AI Data Analyst Agent -->
+    <div class="impl-card">
+      <span class="impl-number">07</span>
+      <span class="impl-icon">&#128202;</span>
+      <div class="impl-title">AI Data Analyst Agent</div>
+      <div class="impl-subtitle">Analyzes CSV/Excel files and generates insights automatically.</div>
+      <div class="impl-section-title">Skills</div>
+      <ul class="impl-list">
+        <li>Data interpretation &#183; Visualization</li>
+        <li>Automated reporting &#183; SQL generation</li>
+      </ul>
+      <div class="impl-section-title">Tools</div>
+      <ul class="impl-list">
+        <li>Pandas &#183; Matplotlib</li>
+        <li>Power BI &#183; Jupyter Notebook</li>
+      </ul>
+      <div class="impl-arch">
+        <div class="impl-arch-label">Architecture</div>
+        <span class="step">User Query / Business Problem</span> <span class="arrow">&#8594;</span>
+        <span class="step">Data Ingestion</span> <span class="arrow">&#8594;</span>
+        <span class="step">Cleaning &amp; Transformation</span> <span class="arrow">&#8594;</span>
+        <span class="step">SQL / Analytics Agent</span> <span class="arrow">&#8594;</span>
+        <span class="step">LLM Reasoning</span> <span class="arrow">&#8594;</span>
+        <span class="step">Visualization &amp; Insights</span> <span class="arrow">&#8594;</span>
+        <span class="step">Prediction / Forecasting</span> <span class="arrow">&#8594;</span>
+        <span class="step">Report Generation</span> <span class="arrow">&#8594;</span>
+        <span class="step">Dashboard &amp; Decision Support</span>
+      </div>
+    </div>
+
+  </div>
+
 
   <!-- ═══════════════════ CITADEL CLOUD MANAGEMENT ═══════════════════ -->
   <div class="section-label">About the Author's Platform</div>
