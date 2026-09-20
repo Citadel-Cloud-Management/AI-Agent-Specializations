@@ -26,3 +26,34 @@ FedRAMP High | CMMC Level 2 | HIPAA/HITRUST | SOC 2 | NIST 800-53 | Zero Trust
 
 ## Author
 **Kehinde (Kenny) Ogunlowo** — [citadelcloudmanagement.com](https://citadelcloudmanagement.com) | kogunlowo@gmail.com
+
+<!-- project-structure -->
+## Project structure
+
+```text
+├── agents/
+│   ├── 01-research-agent/
+│   ├── 02-recommendation-agent/
+│   ├── 03-customer-support-agent/
+│   ├── 04-coding-agent/
+│   ├── 05-browser-agent/
+│   ├── 06-multi-agent-research-team/
+│   ├── 07-data-analyst-agent/
+│   ├── 08-conversational-copilot/
+│   └── … 8 more
+├── .editorconfig
+├── .gitattributes
+├── .gitignore
+├── CODEOWNERS
+├── CONTRIBUTING.md
+├── LICENSE
+├── README.md
+├── SECURITY.md
+├── index.html
+└── requirements.txt
+```
+
+<!-- architecture -->
+## Architecture
+
+![Architecture diagram](docs/architecture.svg)
